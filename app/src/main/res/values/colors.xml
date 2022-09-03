@@ -10,4 +10,5 @@
     <color name="principal">#2A2971</color>
     <color name="secundario">#1d3cb1</color>
     <color name="terciario">#1a74a4</color>
+    <color name="transparente">#00FFFFFF</color>
 </resources>
