@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "272493915762",
+    "project_id": "goarbit-ism",
+    "storage_bucket": "goarbit-ism.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:272493915762:android:38bf4d8c2e0dfcffc99ceb",
+        "android_client_info": {
+          "package_name": "com.example.goarbit_ism"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "272493915762-duve428hokuk4s7b674vkqokiegf1o1l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaO95sPsfLK0Y9XsqQ27JpUcrQU00aBaY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "272493915762-duve428hokuk4s7b674vkqokiegf1o1l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
