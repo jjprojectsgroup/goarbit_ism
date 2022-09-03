@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">titulo</string>
+    <string name="prompt_email">Correo</string>
+    <string name="prompt_password">Contraseña</string>
+    <string name="action_sign_in">Ingresar</string>
+    <string name="action_loguot">Cerrar sesión</string>
+    <string name="action_sign_in_short">Registrarse</string>
+    <string name="welcome">Bienvenido</string>
+    <string name="invalid_username">No es un nombre de usuario válido</string>
+    <string name="invalid_password">La contraseña debe tener minimo 8 caracteres</string>
+    <string name="login_failed">Error de inicio de sesion</string>
+    <string name="title_activity_main">Actividad principal</string>
+    <string name="navigation_drawer_open">Abrir navegación</string>
+    <string name="navigation_drawer_close">Cerrar navegación</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="menu_home">Inicio</string>
+    <string name="register_name">Nombre</string>
+    <string name="register_surname">Apellido</string>
+    <string name="register_username">Nombre de Usuario</string>
+    <string name="register_mail">Correo</string>
+    <string name="register_password">Contraseña</string>
+    <string name="register_confirm_password">Confirmar Contraseña</string>
+    <string name="register_accepted">He aceptado</string>
+    <string name="register_now">REGISTRATE AHORA</string>
+    <string name="register_sign_up">REGISTRATE</string>
+</resources>
