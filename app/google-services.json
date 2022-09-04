@@ -1,33 +1,34 @@
 {
   "project_info": {
-    "project_number": "272493915762",
-    "project_id": "goarbit-ism",
-    "storage_bucket": "goarbit-ism.appspot.com"
+    "project_number": "426864189905",
+    "firebase_url": "https://goarbit-ism-1f6cb-default-rtdb.firebaseio.com",
+    "project_id": "goarbit-ism-1f6cb",
+    "storage_bucket": "goarbit-ism-1f6cb.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:272493915762:android:38bf4d8c2e0dfcffc99ceb",
+        "mobilesdk_app_id": "1:426864189905:android:ecb0aca5c1479772b1c0f0",
         "android_client_info": {
           "package_name": "com.example.goarbit_ism"
         }
       },
       "oauth_client": [
         {
-          "client_id": "272493915762-duve428hokuk4s7b674vkqokiegf1o1l.apps.googleusercontent.com",
+          "client_id": "426864189905-ak0gttbsaftmtfqqujhn07432qorllpm.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCaO95sPsfLK0Y9XsqQ27JpUcrQU00aBaY"
+          "current_key": "AIzaSyCokqXs4hqguA-jTthLMv4rS9i8ryb58ck"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "272493915762-duve428hokuk4s7b674vkqokiegf1o1l.apps.googleusercontent.com",
+              "client_id": "426864189905-ak0gttbsaftmtfqqujhn07432qorllpm.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

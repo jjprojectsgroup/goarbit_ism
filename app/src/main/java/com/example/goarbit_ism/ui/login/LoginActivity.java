@@ -26,10 +26,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.goarbit_ism.ui.register.RegisterActivity;
 import com.example.goarbit_ism.MainActivity;
 import com.example.goarbit_ism.R;
-import com.example.goarbit_ism.ui.login.LoginViewModel;
-import com.example.goarbit_ism.ui.login.LoginViewModelFactory;
 import com.example.goarbit_ism.databinding.ActivityLoginBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -150,10 +149,12 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //loadingProgressBar.setVisibility(View.VISIBLE);
                 // Toast.makeText(LoginActivity.this,"Versión 1.0.", Toast.LENGTH_SHORT).show();
-                if(!usernameEditText.getText().toString().isEmpty() &&
+              /*  if(!usernameEditText.getText().toString().isEmpty() &&
                         !passwordEditText.getText().toString().isEmpty()){
-                    createAccount(usernameEditText.getText().toString(), passwordEditText.getText().toString());
-                }
+                   // createAccount(usernameEditText.getText().toString(), passwordEditText.getText().toString());
+                }*/
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
             }
         });
 
