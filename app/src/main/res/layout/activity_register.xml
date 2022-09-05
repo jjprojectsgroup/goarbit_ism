@@ -29,17 +29,17 @@
        <TextView
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
+           android:layout_marginTop="30dp"
            android:text="@string/register_now"
            android:textAlignment="center"
            android:textColor="@color/white"
            android:textSize="25dp"
-           android:textStyle="bold"
-           android:layout_marginTop="50dp" />
+           android:textStyle="bold" />
 
        <ImageView
            android:layout_width="150dp"
            android:layout_height="150dp"
-           android:src="@drawable/person_user"
+           android:src="@drawable/usuario_white"
            android:layout_gravity="center"
            android:layout_marginTop="51dp"/>
 
@@ -54,9 +54,9 @@
     android:layout_marginLeft="10dp">
 
 <ImageView
-    android:layout_width="10dp"
-    android:layout_height="40dp"
-    android:src="@drawable/person_user"
+    android:layout_width="@dimen/dim_icon"
+    android:layout_height="@dimen/dim_icon"
+    android:src="@drawable/name_last_name"
     android:layout_marginRight="10dp"
     android:layout_marginLeft="10dp"
     android:layout_marginTop="10dp"/>
@@ -88,9 +88,9 @@
          android:layout_marginLeft="10dp">
 
          <ImageView
-             android:layout_width="10dp"
-             android:layout_height="40dp"
-             android:src="@drawable/person_user"
+             android:layout_width="@dimen/dim_icon"
+             android:layout_height="@dimen/dim_icon"
+             android:src="@drawable/name_last_name"
              android:layout_marginRight="10dp"
              android:layout_marginLeft="10dp"
              android:layout_marginTop="10dp"/>
@@ -122,9 +122,9 @@
          android:layout_marginLeft="10dp">
 
          <ImageView
-             android:layout_width="10dp"
-             android:layout_height="40dp"
-             android:src="@drawable/person_user"
+             android:layout_width="@dimen/dim_icon"
+             android:layout_height="@dimen/dim_icon"
+             android:src="@drawable/usuario_black"
              android:layout_marginRight="10dp"
              android:layout_marginLeft="10dp"
              android:layout_marginTop="10dp"/>
@@ -156,9 +156,9 @@
          android:layout_marginLeft="10dp">
 
          <ImageView
-             android:layout_width="10dp"
-             android:layout_height="40dp"
-             android:src="@drawable/person_user"
+             android:layout_width="@dimen/dim_icon"
+             android:layout_height="@dimen/dim_icon"
+             android:src="@drawable/email"
              android:layout_marginRight="10dp"
              android:layout_marginLeft="10dp"
              android:layout_marginTop="10dp"/>
@@ -190,9 +190,9 @@
          android:layout_marginLeft="10dp">
 
          <ImageView
-             android:layout_width="10dp"
-             android:layout_height="40dp"
-             android:src="@drawable/person_user"
+             android:layout_width="@dimen/dim_icon"
+             android:layout_height="@dimen/dim_icon"
+             android:src="@drawable/password"
              android:layout_marginRight="10dp"
              android:layout_marginLeft="10dp"
              android:layout_marginTop="10dp"/>
@@ -224,9 +224,9 @@
          android:layout_marginLeft="10dp">
 
          <ImageView
-             android:layout_width="10dp"
-             android:layout_height="40dp"
-             android:src="@drawable/person_user"
+             android:layout_width="@dimen/dim_icon"
+             android:layout_height="@dimen/dim_icon"
+             android:src="@drawable/password"
              android:layout_marginRight="10dp"
              android:layout_marginLeft="10dp"
              android:layout_marginTop="10dp"/>
@@ -269,6 +269,7 @@
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:text="@string/register_terms_conditions"
+             android:textColor="@color/azul"
              android:layout_marginLeft="4dp"/>
 
 

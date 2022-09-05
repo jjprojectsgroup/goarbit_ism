@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.goarbit_ism.R;
@@ -20,8 +21,8 @@ public class CondicionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_condicion);
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
@@ -42,15 +43,10 @@ public class CondicionActivity extends AppCompatActivity {
         final TextView textView6 = findViewById(R.id.parrafotres);
         final TextView textView7 = findViewById(R.id.titulocuatro);
         final TextView textView8 = findViewById(R.id.parrafocuatro);
-        System.out.println("////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////");
-
 
         myref1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                System.out.println("////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////");
-
-                System.out.println(dataSnapshot.getValue(String.class));
                 textView1.setText(dataSnapshot.getValue(String.class));
             }
 
@@ -144,5 +140,15 @@ public class CondicionActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
