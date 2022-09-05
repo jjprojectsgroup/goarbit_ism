@@ -9,9 +9,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.goarbit_ism.R;
+import com.example.goarbit_ism.ui.condicion.CondicionActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -21,9 +23,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-
-
 public class RegisterActivity extends AppCompatActivity {
+
+
 
     private ActivityRegisterBinding binding;
 
@@ -37,6 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
     // final ProgressBar loadingProgressBar = binding.loading;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         binding = ActivityRegisterBinding.inflate(getLayoutInflater());
@@ -75,6 +78,18 @@ public class RegisterActivity extends AppCompatActivity {
                    };
                     createAccount(emailEditText.getText().toString(), password1EditText.getText().toString(), data);
                 }
+            }
+        });
+
+        TextView mTextViewCondicion;
+        mTextViewCondicion=findViewById(R.id.termino_condicion);
+
+        mTextViewCondicion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(RegisterActivity.this, CondicionActivity.class);
+                startActivity(intent);
+
             }
         });
 
@@ -126,6 +141,8 @@ public class RegisterActivity extends AppCompatActivity {
            // System.out.println(jsonObject.get("name").getAsString()); //John
             //System.out.println(jsonObject.get("age").getAsInt()); //21
             db.child("users").child(uid).setValue(data);
+
+
         }
 
     }

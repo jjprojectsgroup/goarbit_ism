@@ -15,13 +15,11 @@
     <string name="navigation_drawer_close">Cerrar navegación</string>
     <string name="nav_header_title">Android Studio</string>
     <string name="menu_home">Inicio</string>
-    <string name="register_name">Nombre</string>
-    <string name="register_surname">Apellido</string>
     <string name="register_username">Nombre de Usuario</string>
     <string name="register_mail">Correo</string>
     <string name="register_password">Contraseña</string>
     <string name="register_confirm_password">Confirmar Contraseña</string>
-    <string name="register_accepted">He aceptado</string>
+    <string name="register_accepted">He Aceptado</string>
     <string name="register_now">REGISTRATE AHORA</string>
     <string name="register_sign_up">REGISTRATE</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
@@ -31,4 +29,7 @@
     <string name="menu_news">Noticias</string>
     <string name="title_activity_register">ACTIVITY_REGISTER</string>
     <string name="initial_messaje">BIENVENIDO INVERSOR</string>
+    <string name="register_terms_conditions">Terminos y Condiciones</string>
+    <string name="register_last_name">Apellido</string>
+    <string name="register_name">Nombre</string>
 </resources>

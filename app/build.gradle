@@ -43,6 +43,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.3.5'
     implementation 'androidx.navigation:navigation-ui:2.3.5'
     implementation 'io.github.florent37:shapeofview:1.4.7'
+    implementation 'com.codesgood:justifiedtextview:1.1.0'
 
     implementation platform('com.google.firebase:firebase-bom:30.3.2')
     implementation 'com.google.firebase:firebase-analytics'

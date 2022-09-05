@@ -18,8 +18,6 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="menu_home">Home</string>
-    <string name="register_name" translatable="false">Name</string>
-    <string name="register_surname" translatable="false">Last Name</string>
     <string name="register_username">Username</string>
     <string name="register_password">Password</string>
     <string name="register_mail">Email</string>
@@ -31,4 +29,7 @@
     <string name="menu_news">News</string>
     <string name="title_activity_register">ACTIVITY_REGISTER</string>
     <string name="initial_messaje">WELCOME INVESTOR</string>
+    <string name="register_terms_conditions">Terms and Conditions.</string>
+    <string name="register_last_name">Last Name</string>
+    <string name="register_name">Name</string>
 </resources>

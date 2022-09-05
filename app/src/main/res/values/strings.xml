@@ -23,8 +23,6 @@
     <string name="menu_news">News</string>
 
     <string name="register_now">REGISTER NOW</string>
-    <string name="register_name">Name</string>
-    <string name="register_surname">Last Name</string>
     <string name="register_username">Username</string>
     <string name="register_mail">Email</string>
     <string name="register_password">Password</string>
@@ -32,6 +30,9 @@
     <string name="register_accepted">I Have Accepted</string>
     <string name="register_sign_up">SIGN UP</string>
     <string name="title_activity_register">ACTIVITY_REGISTER</string>
+    <string name="register_terms_conditions">Terms and Conditions.</string>
+    <string name="register_last_name">Last Name</string>
+    <string name="register_name">Name</string>
 
 
 </resources>

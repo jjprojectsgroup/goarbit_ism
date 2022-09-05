@@ -4,10 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.266" />
+        <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/drawable/checked.xml" value="0.1565" />
+        <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/drawable/custom_checkbox.xml" value="0.1565" />
         <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/drawable/ic_launcher_background.xml" value="0.266" />
         <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/drawable/rounded_button.xml" value="0.18" />
+        <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/drawable/unchecked.xml" value="0.1565" />
         <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.23560910307898258" />
         <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/layout-w936dp/activity_login.xml" value="0.2260928961748634" />
+        <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/layout/activity_condicion.xml" value="0.33" />
         <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/layout/activity_login.xml" value="0.17831813576494426" />
         <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/layout/activity_main.xml" value="0.2536231884057971" />
         <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/layout/activity_register.xml" value="0.24157303370786518" />
