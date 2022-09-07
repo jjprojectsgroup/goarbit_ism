@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.RecuperarActivity">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="center"
+        android:fadingEdge="horizontal|vertical"
+        app:cardElevation="5dp"
+        app:cardCornerRadius="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="#000"
+                android:text="@string/retrieve_password_main"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="25dp"
+                android:layout_marginEnd="15dp"
+                android:textSize="18dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColorHint="@color/azul"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:hint="@string/register_mail"
+                app:counterTextColor="@color/black"
+                app:hintTextColor="@color/azul"
+                app:boxBackgroundColor="@color/white">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/gmail"
+                    android:textStyle="bold"
+                    android:textColorHint="@color/azul"
+                    android:textColor="@color/black"
+                    android:textColorLink="@color/white"
+                    android:singleLine="true"
+                    android:gravity="center_horizontal"
+                    android:inputType="textEmailAddress"
+                    android:theme="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.skydoves.elasticviews.ElasticCheckButton
+                android:id="@+id/btnRecuperar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/principal"
+                android:text="@string/retrieve_password_main"
+                android:textColor="#ffff"
+                android:textStyle="bold"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="20dp"
+                android:layout_centerHorizontal="true"
+                app:checkButton_cornerRadius="20dp"
+                app:checkButton_alpha="0.7"
+                app:checkButton_duration="400"
+                app:checkButton_scale="0.9"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.core.widget.NestedScrollView>

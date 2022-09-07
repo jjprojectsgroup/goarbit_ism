@@ -1,11 +1,15 @@
 package com.example.goarbit_ism.ui.login;
 
+import static java.lang.Thread.sleep;
+
 import android.app.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,28 +26,47 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.goarbit_ism.ui.RecuperarActivity;
 import com.example.goarbit_ism.ui.register.RegisterActivity;
 import com.example.goarbit_ism.MainActivity;
 import com.example.goarbit_ism.R;
 import com.example.goarbit_ism.databinding.ActivityLoginBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.skydoves.elasticviews.ElasticCheckButton;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
     private ActivityLoginBinding binding;
 
+
+    public ElasticCheckButton recuperar;
+    public ProgressDialog progress;
+    public String correo;
+    FirebaseAuth auth;
+
     private FirebaseAuth mAuth;
     private static final String TAG = "EmailPassword";
 
+
+
+    String url_Facebook = "https://www.facebook.com/Joan.invertir";
+    String url_Web ="https://invertirsinmiedo.com/";
+            String url_Instagram ="https://www.instagram.com/invertir_sinmiedo/";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,12 +81,17 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
-        final EditText usernameEditText = binding.username;
+        final EditText usernameEditText = binding.email;
         final EditText passwordEditText = binding.password;
         final Button loginButton = binding.loginButton;
-        final Button createAccountButton = binding.createAccountButton;
+        final TextView createAccountButton = binding.createAccountButton;
+        final TextView forgotPassword = binding.forgotPassword;
 
-        final ProgressBar loadingProgressBar = binding.loading;
+        final ImageButton btn_Facebook= binding.buttonFacebook;
+        final ImageButton btn_Web= binding.buttonWeb;
+        final ImageButton btn_Instagram= binding.buttonInstagram;
+
+
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
@@ -87,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (loginResult == null) {
                     return;
                 }
-                loadingProgressBar.setVisibility(View.GONE);
+
                 if (loginResult.getError() != null) {
                     showLoginFailed(loginResult.getError());
                 }
@@ -136,10 +164,10 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadingProgressBar.setVisibility(View.VISIBLE);
-                login(usernameEditText.getText().toString().trim(),
-                        passwordEditText.getText().toString().trim());
-                loadingProgressBar.setVisibility(View.GONE);
+
+                login(usernameEditText.getText().toString(),
+                        passwordEditText.getText().toString());
+
 
             }
         });
@@ -149,6 +177,53 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+
+              //  Intent intent = new Intent(LoginActivity.this, RecuperarActivity.class);
+              //  startActivity(intent);
+                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                View mView = getLayoutInflater().inflate(R.layout.activity_recuperar, null);
+
+
+                builder.setView(mView);
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+               // ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+                //executorService.schedule(() -> recuperar(), 3, TimeUnit.SECONDS);
+
+            }
+        });
+
+
+       btn_Facebook.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                Uri url_F = Uri.parse(url_Facebook);
+                Intent link_F = new Intent(Intent.ACTION_VIEW,url_F);
+                startActivity(link_F);
+            }
+        });
+
+        btn_Web.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                Uri url_W = Uri.parse(url_Web);
+                Intent link_W = new Intent(Intent.ACTION_VIEW,url_W);
+                startActivity(link_W);
+            }
+        });
+        btn_Instagram.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                Uri url_I = Uri.parse(url_Instagram);
+                Intent link_I = new Intent(Intent.ACTION_VIEW,url_I);
+                startActivity(link_I);
             }
         });
 
@@ -176,6 +251,8 @@ public class LoginActivity extends AppCompatActivity {
             reload();
         }
     }
+
+
     private void reload() { }
     // [END on_start_check_user]
 

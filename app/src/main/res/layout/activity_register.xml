@@ -276,16 +276,23 @@
 
      </LinearLayout>
 
+     <com.skydoves.elasticviews.ElasticCheckButton
+         android:id="@+id/singUpButton"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:background="@color/principal"
+         android:text="@string/register_sign_up"
+         android:textColor="#ffff"
+         android:textStyle="bold"
+         android:layout_marginRight="20dp"
+         android:layout_marginLeft="20dp"
+         android:layout_marginTop="5dp"
+         android:layout_centerHorizontal="true"
+         app:checkButton_cornerRadius="20dp"
+         app:checkButton_alpha="0.7"
+         app:checkButton_duration="400"
+         app:checkButton_scale="0.9"/>
 
-<Button
-    android:id="@+id/singUpButton"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="20dp"
-    android:layout_marginRight="20dp"
-    android:layout_marginTop="5dp"
-    android:background="@drawable/rounded_button"
-    android:text="@string/register_sign_up"/>
 
  </LinearLayout>
 
