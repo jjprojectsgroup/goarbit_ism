@@ -1,9 +1,7 @@
 package com.example.goarbit_ism.ui.register;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,17 +10,28 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.bumptech.glide.Glide;
 import com.example.goarbit_ism.R;
+import com.example.goarbit_ism.databinding.ActivityRegisterBinding;
 import com.example.goarbit_ism.ui.condicion.CondicionActivity;
+import com.example.goarbit_ism.ui.user.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.example.goarbit_ism.databinding.ActivityRegisterBinding;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import com.example.goarbit_ism.ui.util.constantes;
 public class RegisterActivity extends AppCompatActivity {
 
 
@@ -56,27 +65,21 @@ public class RegisterActivity extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
+
         singUpButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                //loadingProgressBar.setVisibility(View.VISIBLE);
-                // Toast.makeText(LoginActivity.this,"Versión 1.0.", Toast.LENGTH_SHORT).show();
 
-
-
-               // databaseRef.child("users").child("miles").setValue(user);
                if(!nameEditText.getText().toString().isEmpty() && !lastNameEditText.getText().toString().isEmpty()
                 && !userNameEditText.getText().toString().isEmpty() && !emailEditText.getText().toString().isEmpty()
                 && !password1EditText.getText().toString().isEmpty() && !password2EditText.getText().toString().isEmpty() && password1EditText.getText().toString().equals(password2EditText.getText().toString())){
-                   String[] data = new String[]{
-                           "name :" + nameEditText.getText().toString(),
-                           "lastName: " + lastNameEditText.getText().toString(),
-                           "userName: " + userNameEditText.getText().toString(),
-                           "email:" + emailEditText.getText().toString(),
-                           "password:" + password1EditText.getText().toString(),
-                           "terminos:" + "1",
-                   };
-                    createAccount(emailEditText.getText().toString(), password1EditText.getText().toString(), data);
+
+                   String[] usuario = new String[10];
+                   usuario[0]= nameEditText.getText().toString();
+                   usuario[1] =lastNameEditText.getText().toString();
+                   usuario[2] =userNameEditText.getText().toString();
+                   usuario[3] =emailEditText.getText().toString();
+                   createAccount(emailEditText.getText().toString(), password1EditText.getText().toString(), usuario);
                 }
             }
         });
@@ -89,13 +92,11 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent(RegisterActivity.this, CondicionActivity.class);
                 startActivity(intent);
-
             }
         });
-
     }
 
-    private void createAccount(String username, String password, String[] data) {
+    private void createAccount(String username, String password, String[] usuario) {
         // [START create_user_with_email]
         mAuth.createUserWithEmailAndPassword(username, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
@@ -106,7 +107,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Registro Exitoso.",
                             Toast.LENGTH_SHORT).show();
                     FirebaseUser user = mAuth.getCurrentUser();
-                    updateUI(user, data);
+                    updateUI(user, usuario);
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -118,34 +119,38 @@ public class RegisterActivity extends AppCompatActivity {
         });
         // [END create_user_with_email]
     }
-    private void updateUI(FirebaseUser user, String[] data) {
+    private void updateUI(FirebaseUser user, String[] usuario) {
 
-        if (user != null && data != null) {
-            // Name, email address, and profile photo Url
-           // String name = user.getDisplayName();
-           // String email = user.getEmail();
-            //Uri photoUrl = user.getPhotoUrl();
-
-            // Check if user's email is verified
-           // boolean emailVerified = user.isEmailVerified();
+        if (user != null && usuario != null) {
             Toast.makeText(RegisterActivity.this, "entro en registrar datos.",
                     Toast.LENGTH_SHORT).show();
-            // The user's ID, unique to the Firebase project. Do NOT use this value to
-            // authenticate with your backend server, if you have one. Use
-            // FirebaseUser.getIdToken() instead.
+
             String uid = user.getUid();
 
+            //db.child("users").child(uid).setValue(data);
+            String fecha = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
+           // FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-          //  JSONObject jsonObject = new JsonParser().parse(data).getAsJsonObject();
+            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(usuario[0]+" "+usuario[1])
+                    .setPhotoUri(Uri.parse(constantes.photoUrl_New_User))
+                    .build();
 
-           // System.out.println(jsonObject.get("name").getAsString()); //John
-            //System.out.println(jsonObject.get("age").getAsInt()); //21
-            db.child("users").child(uid).setValue(data);
-
-
+            user.updateProfile(profileUpdates)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Log.d(TAG, "User profile updated.");
+                            }
+                        }
+                    });
+            db.child("users").child(uid).setValue(new User(usuario[0], usuario[1],usuario[2], usuario[3], "1", fecha, constantes.photoUrl_New_User));
         }
 
     }
+
+
 
 
 

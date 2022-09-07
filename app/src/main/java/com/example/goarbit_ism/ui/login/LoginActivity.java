@@ -137,8 +137,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+                login(usernameEditText.getText().toString().trim(),
+                        passwordEditText.getText().toString().trim());
                 loadingProgressBar.setVisibility(View.GONE);
 
             }
@@ -147,12 +147,6 @@ public class LoginActivity extends AppCompatActivity {
         createAccountButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                //loadingProgressBar.setVisibility(View.VISIBLE);
-                // Toast.makeText(LoginActivity.this,"Versión 1.0.", Toast.LENGTH_SHORT).show();
-              /*  if(!usernameEditText.getText().toString().isEmpty() &&
-                        !passwordEditText.getText().toString().isEmpty()){
-                   // createAccount(usernameEditText.getText().toString(), passwordEditText.getText().toString());
-                }*/
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }
@@ -218,6 +212,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
@@ -227,8 +222,6 @@ public class LoginActivity extends AppCompatActivity {
                             updateUI(user);
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
-
-
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
@@ -237,6 +230,7 @@ public class LoginActivity extends AppCompatActivity {
                             updateUI(null);
                         }
                     }
+
                 });
 
         // [END sign_in_with_email]
