@@ -27,26 +27,19 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.goarbit_ism.ui.RecuperarActivity;
 import com.example.goarbit_ism.ui.register.RegisterActivity;
 import com.example.goarbit_ism.MainActivity;
 import com.example.goarbit_ism.R;
 import com.example.goarbit_ism.databinding.ActivityLoginBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.skydoves.elasticviews.ElasticCheckButton;
-
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -55,13 +48,14 @@ public class LoginActivity extends AppCompatActivity {
 
 
     public ElasticCheckButton recuperar;
-    public ProgressDialog progress;
     public String correo;
     FirebaseAuth auth;
 
+
+    private ProgressDialog progress ;
     private FirebaseAuth mAuth;
     private static final String TAG = "EmailPassword";
-
+AlertDialog dialog = null;
 
 
     String url_Facebook = "https://www.facebook.com/Joan.invertir";
@@ -71,6 +65,9 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        progress = new ProgressDialog(this);
+        auth = FirebaseAuth.getInstance();
 
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -90,7 +87,6 @@ public class LoginActivity extends AppCompatActivity {
         final ImageButton btn_Facebook= binding.buttonFacebook;
         final ImageButton btn_Web= binding.buttonWeb;
         final ImageButton btn_Instagram= binding.buttonInstagram;
-
 
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
@@ -184,17 +180,40 @@ public class LoginActivity extends AppCompatActivity {
 
             public void onClick(View v) {
 
-              //  Intent intent = new Intent(LoginActivity.this, RecuperarActivity.class);
-              //  startActivity(intent);
                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                View mView = getLayoutInflater().inflate(R.layout.activity_recuperar, null);
-              final TextInputEditText txtcorreo = (TextInputEditText) mView.findViewById(R.id.gmail);
+                View mView = getLayoutInflater().inflate(R.layout.layout_recuperar, null);
+              final EditText txtMail = (EditText) mView.findViewById(R.id.txtMail);
               Button btnRecuperar = (Button) mView.findViewById(R.id.btnRecuperar);
+                ImageButton btnSalir = (ImageButton) mView.findViewById(R.id.btnSalir);
+
+                btnSalir.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        dialog.dismiss();
+                    }
+                });
+
+   btnRecuperar.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        String email = txtMail.getText().toString().trim();
+        if(!email.isEmpty()) {
+
+            progress.setMessage("Espere un Momento: ");
+            progress.setCanceledOnTouchOutside(false);
+            progress.show();
+            enviarCorreo(email);
+        }else {
+            Toast.makeText(LoginActivity.this, "Es necesario ingresar un correo electronico",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+});
 
                 builder.setView(mView);
-                AlertDialog dialog = builder.create();
+                 dialog = builder.create();
                 dialog.show();
-
 
             }
         });
@@ -228,22 +247,22 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-
-    private void enviarCorreo() {
+    private void enviarCorreo(String email) {
         auth.setLanguageCode("es");
-        auth.sendPasswordResetEmail(correo).addOnCompleteListener(new OnCompleteListener<Void>() {
+        auth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
                     Toast.makeText(LoginActivity.this, "Por favor revise su correo para restaurar contraseña",
-                            Toast.LENGTH_SHORT).show    ();
-                    Intent i = new Intent(LoginActivity.this, LoginActivity.class);
-                    startActivity(i);
-                    finish();
+                            Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                    progress.dismiss();
+
+
                 }else{
                     Toast.makeText(LoginActivity.this, "El correo no se pudo enviar",
                             Toast.LENGTH_SHORT).show();
-                    progress.dismiss();
+                             progress.dismiss();
                 }
             }
         });

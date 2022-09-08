@@ -33,7 +33,9 @@
     <string name="register_last_name">Last Name</string>
     <string name="register_name">Name</string>
     <string name="retrieve_password_main">RECOVER PASSWORD</string>
-    <string name="retrieve_password">Recover Password</string>
+    <string name="retrieve_password_title">Recover Password</string>
     <string name="login_have_account">You do not have an account?</string>
     <string name="login_forgot_password">Forgot password?</string>
+    <string name="retrieve_password">Enter your email</string>
+    <string name="button_confirm">Confirm</string>
 </resources>

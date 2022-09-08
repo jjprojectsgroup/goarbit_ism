@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseDatabase databaseRef = FirebaseDatabase.getInstance();
     private DatabaseReference db = databaseRef.getReference();
 
-    String url_Whatsapp = "https://wa.me/573123433531";
+    String url_Whatsapp = "https://wa.me/573004761225";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
