@@ -188,14 +188,13 @@ public class LoginActivity extends AppCompatActivity {
               //  startActivity(intent);
                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                 View mView = getLayoutInflater().inflate(R.layout.activity_recuperar, null);
-
+              final TextInputEditText txtcorreo = (TextInputEditText) mView.findViewById(R.id.gmail);
+              Button btnRecuperar = (Button) mView.findViewById(R.id.btnRecuperar);
 
                 builder.setView(mView);
                 AlertDialog dialog = builder.create();
                 dialog.show();
 
-               // ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-                //executorService.schedule(() -> recuperar(), 3, TimeUnit.SECONDS);
 
             }
         });
@@ -224,6 +223,28 @@ public class LoginActivity extends AppCompatActivity {
                 Uri url_I = Uri.parse(url_Instagram);
                 Intent link_I = new Intent(Intent.ACTION_VIEW,url_I);
                 startActivity(link_I);
+            }
+        });
+
+    }
+
+
+    private void enviarCorreo() {
+        auth.setLanguageCode("es");
+        auth.sendPasswordResetEmail(correo).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(LoginActivity.this, "Por favor revise su correo para restaurar contraseña",
+                            Toast.LENGTH_SHORT).show    ();
+                    Intent i = new Intent(LoginActivity.this, LoginActivity.class);
+                    startActivity(i);
+                    finish();
+                }else{
+                    Toast.makeText(LoginActivity.this, "El correo no se pudo enviar",
+                            Toast.LENGTH_SHORT).show();
+                    progress.dismiss();
+                }
             }
         });
 

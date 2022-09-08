@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -71,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
     FirebaseDatabase databaseRef = FirebaseDatabase.getInstance();
     private DatabaseReference db = databaseRef.getReference();
 
+    String url_Whatsapp = "https://wa.me/573123433531";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         setSupportActionBar(binding.appBarMain.toolbar);
-        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
+        binding.appBarMain.btnwhatsapp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -103,7 +106,18 @@ public class MainActivity extends AppCompatActivity {
 
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        final ImageButton btnwhatsapp= binding.appBarMain.btnwhatsapp;
+        btnwhatsapp.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                Uri url_W = Uri.parse(url_Whatsapp);
+                Intent link_W = new Intent(Intent.ACTION_VIEW,url_W);
+                startActivity(link_W);
+            }
+        });
     }
+
 
     private void cargarImagen(){
         Intent galeria = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
