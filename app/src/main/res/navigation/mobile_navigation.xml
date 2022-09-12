@@ -12,6 +12,12 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.example.goarbit_ism.ui.profile.ProfileFragment"
+        android:label="@string/menu_profile"
+        tools:layout="@layout/fragment_profile" />
+
+    <fragment
         android:id="@+id/nav_calculator"
         android:name="com.example.goarbit_ism.ui.gallery.GalleryFragment"
         android:label="@string/menu_calculator"
@@ -22,6 +28,7 @@
         android:name="com.example.goarbit_ism.NewsActivity"
         android:label="@string/menu_news"
         tools:layout="@layout/activity_goarbit" />
+        
     <activity
         android:id="@+id/nav_goarbit"
         android:name="com.example.goarbit_ism.GoarbitActivity"

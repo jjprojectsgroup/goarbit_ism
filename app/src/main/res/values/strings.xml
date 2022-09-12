@@ -40,6 +40,16 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="retrieve_password">Enter your email to recover the password</string>
     <string name="button_confirm">Confirm</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="menu_profile">Profile</string>
+    <string name="update">UPDATE</string>
+    <string name="profile">PROFILE</string>
+    <string name="new_password">New Password</string>
+    <string name="old_password">Old Password</string>
+    <string name="menu_logout">Logout</string>
+    <string name="menu_about">About</string>
+    <string name="action_about">About</string>
+    <string name="action_logout">Logout</string>
     <string name="menu_goarbit">GoArbit</string>
     <string name="register_sign_up_button">Sign Up</string>
 

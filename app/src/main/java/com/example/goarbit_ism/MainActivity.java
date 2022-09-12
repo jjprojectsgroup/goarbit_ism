@@ -1,6 +1,8 @@
 package com.example.goarbit_ism;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -11,11 +13,10 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.Button;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.goarbit_ism.databinding.ActivityMainBinding;
+import com.example.goarbit_ism.ui.login.LoginActivity;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -56,13 +58,17 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
 
 public class MainActivity extends AppCompatActivity {
-WebView webView;
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     ActionBar actionBar;
     private CircleImageView imageUser = null;
+    private ImageView imageUserProfile = null;
+
     private TextView textName = null;
     private TextView textEmail = null;
+    boolean datosPerfil = false;
+    String viewUpdateName = null;
+
     UploadTask uploadTask;
     private static final String TAG = "EmailPassword";
 
@@ -96,6 +102,16 @@ WebView webView;
                         .setAction("Action", null).show();
             }
         });
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            System.out.println("sesion ya iniciada por el usuario "+user.getDisplayName());
+
+        } else {
+            Intent intent = new Intent( MainActivity.this, LoginActivity.class );
+            startActivity(intent);
+            System.out.println("no hay sesion activa ");
+
+        }
         actionBar = getSupportActionBar();
         ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#2A2971"));
         actionBar.setBackgroundDrawable(colorDrawable);
@@ -105,10 +121,11 @@ WebView webView;
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_goarbit, R.id.nav_calculator, R.id.nav_news)
+                R.id.nav_home, R.id.nav_goarbit, R.id.nav_calculator, R.id.nav_news, R.id.nav_profile)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+
 
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -124,21 +141,60 @@ WebView webView;
         });
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_about:
+                about();
+                return true;
+            case R.id.action_logout:
+                logout();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
-    private void cargarImagen(){
+    private void logout() {
+        Toast.makeText(MainActivity.this, "entro en logout.",
+                Toast.LENGTH_SHORT).show();
+        System.out.println("Sesion Cerrada.");
+     //   FirebaseAuth.getInstance().signOut();
+        validacion();
+     /*   Intent intent = new Intent( MainActivity.this, LoginActivity.class );
+        startActivity(intent);*/
+    }
+
+    private void validacion() {
+        new AlertDialog.Builder(this)
+              //  .setIcon(R.drawable.alacran)
+                .setTitle("¿Realmente desea cerrar sesion?")
+                .setCancelable(false)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {// un listener que al pulsar, cierre la aplicacion
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        FirebaseAuth.getInstance().signOut();
+                        Intent intent = new Intent( MainActivity.this, LoginActivity.class );
+                        startActivity(intent);
+                        //android.os.Process.killProcess(android.os.Process.myPid()); //Su funcion es algo similar a lo que se llama cuando se presiona el botón "Forzar Detención" o "Administrar aplicaciones", lo cuál mata la aplicación
+                        //finish(); Si solo quiere mandar la aplicación a segundo plano
+                    }
+                }).show();
+    }
+
+    private void about() {
+        Toast.makeText(MainActivity.this, "entro en about.",
+                Toast.LENGTH_SHORT).show();
+        System.out.println("entro en about.");
+
+    }
+
+    public void cargarImagen(){
         Intent galeria = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         galeria.setType("image/");
         startActivityForResult(getIntent().createChooser(galeria, "Selecione la Imagen"),10);
-    }
-
-    public String getRealPathFromURI(Uri contentUri){
-        String[] proj = { MediaStore.Audio.Media.DATA };
-        Cursor cursor = managedQuery(contentUri, proj, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
-        cursor.moveToFirst();
-        System.out.println(cursor.getString(column_index) +" cursor.getString(column_index)***************************************** ");
-
-        return cursor.getString(column_index);
     }
 
     @Override
@@ -150,7 +206,6 @@ WebView webView;
 
             // final File imageurl = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/myCompressor");
             final File url = new File(ruta);
-
             //comprimiendo imagen
             try {
                 thumb_bitmap = new Compressor(MainActivity.this)
@@ -177,6 +232,15 @@ WebView webView;
 
             updateUI(user,imgUri,thumb_byte);
         }
+    }
+
+    public String getRealPathFromURI(Uri contentUri){
+        String[] proj = { MediaStore.Audio.Media.DATA };
+        Cursor cursor = managedQuery(contentUri, proj, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
+        cursor.moveToFirst();
+
+        return cursor.getString(column_index);
     }
 
     private void updateUI(FirebaseUser user, Uri ruta, byte[] thumb_byte) {
@@ -231,65 +295,6 @@ WebView webView;
         }
     }
 
-    /*private void updateUI(FirebaseUser user, Uri ruta, byte[] thumb_byte) {
-
-        if (user != null && ruta != null) {
-            Toast.makeText(MainActivity.this, "entro en registrar datos.",
-                    Toast.LENGTH_SHORT).show();
-
-            String uid = user.getUid();
-
-            // [START upload_get_download_url]
-            Uri file = ruta;
-           // byte[] imgByte = thumb_byte;
-            final StorageReference ref = dbstorage.child("users/"+file.getLastPathSegment());
-            uploadTask = ref.putFile(file);
-
-            Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                @Override
-                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                    if (!task.isSuccessful()) {
-                        throw task.getException();
-                    }
-
-                    // Continue with the task to get the download URL
-                    return ref.getDownloadUrl();
-                }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if (task.isSuccessful()) {
-                        Uri downloadUri = task.getResult();
-                        Toast.makeText(MainActivity.this, "archivo cargado exitosamente.",
-                                Toast.LENGTH_SHORT).show();
-                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                .setPhotoUri(downloadUri)
-                                .build();
-
-                        user.updateProfile(profileUpdates)
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            Log.d(TAG, "User profile updated.");
-                                        }
-                                    }
-                                });
-                        db.child("users").child(uid).child("photoUrl").setValue(downloadUri.toString());
-                    } else {
-                        Toast.makeText(MainActivity.this, "fallo la subida del archivo",
-                                Toast.LENGTH_SHORT).show();
-                        // Handle failures
-                        // ...
-                    }
-                }
-            });
-            // [END upload_get_download_url]
-          //
-        }
-
-    }*/
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -301,15 +306,20 @@ WebView webView;
         cargando = new ProgressDialog(MainActivity.this);
         imageUser = (CircleImageView) findViewById(R.id.imageUser);
 
+
         imageUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cargarImagen();
             }
         });
-        getUserProfile();
 
-     //   photo();
+
+
+        if(!datosPerfil) {
+            getUserProfile();
+            //   photo();
+        }
         return true;
     }
 
@@ -323,14 +333,14 @@ WebView webView;
 
     public void getUserProfile() {
         // [START get_user_profile]
-
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
+            datosPerfil=true;
             // Name, email address, and profile photo Url
             String name = user.getDisplayName();
             String email = user.getEmail();
             Uri photoUrl = user.getPhotoUrl();
-            System.out.println("Photo URL: " + photoUrl);
+            System.out.println("Photo URL2: " + photoUrl);
             Glide.with(this).load(photoUrl)
                     .apply(new RequestOptions()
                             .placeholder(R.mipmap.ic_launcher)
@@ -343,9 +353,6 @@ WebView webView;
             // Check if user's email is verified
             boolean emailVerified = user.isEmailVerified();
 
-            // The user's ID, unique to the Firebase project. Do NOT use this value to
-            // authenticate with your backend server, if you have one. Use
-            // FirebaseUser.getIdToken() instead.
             String uid = user.getUid();
             textName = (TextView) findViewById(R.id.textName);
             textEmail = (TextView) findViewById(R.id.textEmail);

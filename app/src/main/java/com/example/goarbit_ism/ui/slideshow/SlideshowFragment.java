@@ -28,6 +28,7 @@ public class SlideshowFragment extends Fragment {
 
         SlideshowViewModel slideshowViewModel =
                 new ViewModelProvider(this).get(SlideshowViewModel.class);
+        System.out.println("onCreateView() called  slideshowViewModel ---------------------------------------------------------");
 
         binding = FragmentSlideshowBinding.inflate(inflater, container, false);
         View root = binding.getRoot();

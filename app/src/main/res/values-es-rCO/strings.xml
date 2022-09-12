@@ -29,7 +29,7 @@
     <string name="menu_news">Noticias</string>
     <string name="title_activity_register">ACTIVITY_REGISTER</string>
     <string name="initial_messaje">BIENVENIDO INVERSOR</string>
-    <string name="register_terms_conditions">Terminos y Condiciones</string>
+    <string name="register_terms_conditions">Terminos y Condiciones.</string>
     <string name="register_last_name">Apellido</string>
     <string name="register_name">Nombre</string>
     <string name="retrieve_password_main">RECUPERAR CONTRASEÑA</string>
@@ -40,4 +40,13 @@
     <string name="button_confirm">Confirmar</string>
     <string name="menu_goarbit">GoArbit</string>
     <string name="register_sign_up_button">Registrate</string>
+    <string name="menu_profile">Perfil</string>
+    <string name="update">ACTUALIZAR</string>
+    <string name="profile">PERFIL</string>
+    <string name="new_password">Contraseña anterior</string>
+    <string name="old_password">Nueva Contraseña</string>
+    <string name="menu_logout">Cerrar</string>
+    <string name="menu_about">Sobre Nosotros</string>
+    <string name="action_logout">Cerrar Sesion</string>
+    <string name="action_about">Sobre Nosotros</string>
 </resources>

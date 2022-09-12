@@ -14,9 +14,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.goarbit_ism.MainActivity;
 import com.example.goarbit_ism.R;
 import com.example.goarbit_ism.databinding.ActivityRegisterBinding;
 import com.example.goarbit_ism.ui.condicion.CondicionActivity;
+import com.example.goarbit_ism.ui.login.LoginActivity;
 import com.example.goarbit_ism.ui.user.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -113,7 +115,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Log.w(TAG, "createUserWithEmail:failure", task.getException());
                     Toast.makeText(RegisterActivity.this, "Registro Fallido.",
                             Toast.LENGTH_SHORT).show();
-                    updateUI(null, null);
+                   // updateUI(null, null);
                 }
             }
         });
@@ -127,9 +129,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             String uid = user.getUid();
 
-            //db.child("users").child(uid).setValue(data);
             String fecha = new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime());
-           // FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                     .setDisplayName(usuario[0]+" "+usuario[1])
@@ -142,6 +142,8 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
                                 Log.d(TAG, "User profile updated.");
+                                Intent intent = new Intent( RegisterActivity.this, LoginActivity.class );
+                                startActivity(intent);
                             }
                         }
                     });

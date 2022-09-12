@@ -1,83 +1,111 @@
 package com.example.goarbit_ism.ui.user;
 
-public class User {
-    public String name;
-    public String lastName;
-    public String userName;
-    public String email;
-    public String tYc;
-    public String date;
+import com.google.firebase.database.Exclude;
 
-    public String photoUrl;
+import java.util.HashMap;
+import java.util.Map;
+
+public class User {
+
+    private static String name;
+    private static String lastName;
+    private static String userName;
+    private static String email;
+    private static String tYc;
+    private static String date;
+    private static String photoUrl;
+
+    public Map<String, Boolean> stars = new HashMap<>();
 
     public User() {
         // ...
     }
 
     public User(String name, String lastName, String userName, String email, String tYc, String date, String photoUrl) {
-        this.name = name;
-        this.lastName = lastName;
-        this.userName = userName;
-        this.email = email;
-        this.tYc = tYc;
-        this.date = date;
-        this.photoUrl = photoUrl;
+        User.name = name;
+        User.lastName = lastName;
+        User.userName = userName;
+        User.email = email;
+        User.tYc = tYc;
+        User.date = date;
+        User.photoUrl = photoUrl;
     }
 
-    public String getName() {
+    public void updateUser(String name, String lastName, String userName) {
+        User.name = name;
+        User.lastName = lastName;
+        User.userName = userName;
+
+    }
+
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("name", name);
+        result.put("lastName", lastName);
+        result.put("userName", userName);
+        result.put("email", email);
+        result.put("tYc", tYc);
+        result.put("date", date);
+        result.put("photoUrl", photoUrl);
+
+        return result;
+    }
+
+    public static String getName() {
         return name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        User.name = name;
     }
 
-    public String getLastName() {
+    public static String getLastName() {
         return lastName;
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        User.lastName = lastName;
     }
 
-    public String getUserName() {
+    public static String getUserName() {
         return userName;
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        User.userName = userName;
     }
 
-    public String getEmail() {
+    public static String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        User.email = email;
     }
 
-    public String gettYc() {
+    public static String gettYc() {
         return tYc;
     }
 
     public void settYc(String tYc) {
-        this.tYc = tYc;
+        User.tYc = tYc;
     }
 
-    public String getDate() {
+    public static String getDate() {
         return date;
     }
 
     public void setDate(String date) {
-        this.date = date;
+        User.date = date;
     }
 
-    public String getPhotoUrl() {
+    public static String getPhotoUrl() {
         return photoUrl;
     }
 
     public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
+        User.photoUrl = photoUrl;
     }
 
 }

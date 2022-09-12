@@ -34,6 +34,7 @@ import com.example.goarbit_ism.ui.register.RegisterActivity;
 import com.example.goarbit_ism.MainActivity;
 import com.example.goarbit_ism.R;
 import com.example.goarbit_ism.databinding.ActivityLoginBinding;
+import com.example.goarbit_ism.ui.user.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -74,6 +75,13 @@ AlertDialog dialog = null;
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user != null) {
+            Intent intent = new Intent( LoginActivity.this, MainActivity.class );
+            startActivity(intent);
+            System.out.println("sesion ya iniciada por el usuario "+user.getDisplayName());
+        }
 
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
@@ -87,7 +95,6 @@ AlertDialog dialog = null;
         final ImageButton btn_Facebook= binding.buttonFacebook;
         final ImageButton btn_Web= binding.buttonWeb;
         final ImageButton btn_Instagram= binding.buttonInstagram;
-
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
@@ -257,8 +264,6 @@ AlertDialog dialog = null;
                             Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                     progress.dismiss();
-
-
                 }else{
                     Toast.makeText(LoginActivity.this, "El correo no se pudo enviar",
                             Toast.LENGTH_SHORT).show();
@@ -273,13 +278,11 @@ AlertDialog dialog = null;
         String welcome = getString(R.string.welcome) + model.getDisplayName();
         // TODO : initiate successful logged in experience
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
-
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
     }
-
 
     // [START on_start_check_user]
     @Override
@@ -291,7 +294,6 @@ AlertDialog dialog = null;
             reload();
         }
     }
-
 
     private void reload() { }
     // [END on_start_check_user]
@@ -320,7 +322,7 @@ AlertDialog dialog = null;
         // [END create_user_with_email]
     }
     private void updateUI(FirebaseUser user) {
-
+       // new User(user.get)
     }
 
     private void login(String email, String password) {
@@ -336,7 +338,7 @@ AlertDialog dialog = null;
                             Toast.makeText(LoginActivity.this, "Ingreso Exitoso.",
                                     Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                          //  updateUI(user);
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                         } else {
@@ -344,7 +346,7 @@ AlertDialog dialog = null;
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(LoginActivity.this, "Ingreso Fallido.",
                                     Toast.LENGTH_SHORT).show();
-                            updateUI(null);
+                            //updateUI(null);
                         }
                     }
 
