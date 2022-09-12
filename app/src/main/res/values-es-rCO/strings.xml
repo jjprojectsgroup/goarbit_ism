@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">titulo</string>
+    <string name="app_name">GoArbit ISM</string>
     <string name="prompt_email">Correo</string>
     <string name="prompt_password">Contraseña</string>
     <string name="action_sign_in">Ingresar</string>
@@ -38,4 +38,6 @@
     <string name="login_forgot_password">¿Has olvidado tu contraseña?</string>
     <string name="retrieve_password">Ingresa tu correo electrónico</string>
     <string name="button_confirm">Confirmar</string>
+    <string name="menu_goarbit">GoArbit</string>
+    <string name="register_sign_up_button">Registrate</string>
 </resources>

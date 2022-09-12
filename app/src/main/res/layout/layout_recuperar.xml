@@ -63,7 +63,7 @@
         android:hint="@string/retrieve_password"
         app:counterTextColor="@color/black"
         app:hintTextColor="@color/azul"
-        app:boxBackgroundColor="@color/white">
+        app:boxBackgroundColor="@color/transparente">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txtMail"

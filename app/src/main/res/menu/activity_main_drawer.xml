@@ -8,13 +8,24 @@
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_baseline_home_24"
             android:title="@string/menu_home" />
+
         <item
-            android:id="@+id/nav_calculator"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_calculator" />
+            android:id="@+id/nav_goarbit"
+            android:icon="@drawable/goarbit_icon"
+            android:title="@string/menu_goarbit" />
+
         <item
             android:id="@+id/nav_news"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_news" />
+
+        <item
+            android:id="@+id/nav_calculator"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="@string/menu_calculator" />
+
+
+
+
     </group>
 </menu>

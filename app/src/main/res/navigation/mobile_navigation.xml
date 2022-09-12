@@ -17,9 +17,16 @@
         android:label="@string/menu_calculator"
         tools:layout="@layout/fragment_gallery" />
 
-    <fragment
+    <activity
         android:id="@+id/nav_news"
-        android:name="com.example.goarbit_ism.ui.slideshow.SlideshowFragment"
+        android:name="com.example.goarbit_ism.NewsActivity"
         android:label="@string/menu_news"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/activity_goarbit" />
+    <activity
+        android:id="@+id/nav_goarbit"
+        android:name="com.example.goarbit_ism.GoarbitActivity"
+        android:label="@string/menu_goarbit"
+        tools:layout="@layout/activity_goarbit" />
+
+
 </navigation>

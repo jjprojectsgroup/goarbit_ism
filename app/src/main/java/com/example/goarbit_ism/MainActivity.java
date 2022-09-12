@@ -11,6 +11,9 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -53,7 +56,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
 
 public class MainActivity extends AppCompatActivity {
-
+WebView webView;
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     ActionBar actionBar;
@@ -94,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#0F9D58"));
+        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#2A2971"));
         actionBar.setBackgroundDrawable(colorDrawable);
 
         DrawerLayout drawer = binding.drawerLayout;
@@ -102,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_calculator, R.id.nav_news)
+                R.id.nav_home, R.id.nav_goarbit, R.id.nav_calculator, R.id.nav_news)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);

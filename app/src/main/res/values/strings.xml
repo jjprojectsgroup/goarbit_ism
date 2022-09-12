@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">titulo</string>
+    <string name="app_name">GoArbit ISM</string>
     <string name="prompt_email">User</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Login</string>
@@ -40,6 +40,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="retrieve_password">Enter your email to recover the password</string>
     <string name="button_confirm">Confirm</string>
+    <string name="menu_goarbit">GoArbit</string>
+    <string name="register_sign_up_button">Sign Up</string>
 
 
 </resources>

@@ -285,13 +285,15 @@
          android:layout_marginTop="5dp"
          android:layout_marginRight="20dp"
          android:background="@color/principal"
-         android:text="@string/register_sign_up"
+         android:text="@string/register_sign_up_button"
          android:textColor="#ffff"
          android:textStyle="bold"
          app:checkButton_alpha="0.7"
          app:checkButton_cornerRadius="20dp"
          app:checkButton_duration="400"
-         app:checkButton_scale="0.9" />
+         app:checkButton_scale="0.9"
+         android:layout_gravity="bottom|end"
+         />
 
 
  </LinearLayout>
