@@ -1,9 +1,11 @@
 package com.example.goarbit_ism;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -24,6 +26,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -71,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
     UploadTask uploadTask;
     private static final String TAG = "EmailPassword";
-
+    private static final int CODIGO_PERMISOS_STORAGE = 1;
     FirebaseStorage storageRef = FirebaseStorage.getInstance();
     private StorageReference dbstorage = storageRef.getReference();
 
@@ -160,10 +164,7 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(MainActivity.this, "entro en logout.",
                 Toast.LENGTH_SHORT).show();
         System.out.println("Sesion Cerrada.");
-     //   FirebaseAuth.getInstance().signOut();
         validacion();
-     /*   Intent intent = new Intent( MainActivity.this, LoginActivity.class );
-        startActivity(intent);*/
     }
 
     private void validacion() {
@@ -192,9 +193,69 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void cargarImagen(){
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            //Mostramos un AlertDialog al usuario explicándole la necesidad del permiso
+            AlertDialog AD;
+            AlertDialog.Builder ADBuilder = new AlertDialog.Builder(MainActivity.this);
+            ADBuilder.setMessage("Para poder cargar una imagen de perfil es necesario ingresar al almacenamiento de tu dispositivo. Permite que 'GoArbit ISM' pueda acceder al almacenamiento.");
+            ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    /*Cuando el usuario pulse sobre el botón del AlertDialog se procede a solicitar
+                     el permiso con el siguiente código:*/
+
+                    ActivityCompat.requestPermissions(
+                            MainActivity.this,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                            CODIGO_PERMISOS_STORAGE);
+                }
+            });
+            //Mostramos el AlertDialog
+            AD = ADBuilder.create();
+            AD.show();
+        } else {
+            /*Si no hay necesidad de una explicación racional, pasamos a solicitar el
+            permiso directamente*/
+            ActivityCompat.requestPermissions(
+                    MainActivity.this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    CODIGO_PERMISOS_STORAGE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == CODIGO_PERMISOS_STORAGE) {
+            /* Resultado de la solicitud para permiso de cámara
+             Si la solicitud es cancelada por el usuario, el método .lenght sobre el array
+             'grantResults' devolverá null.*/
+
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permiso concedido, podemos iniciar camara
+                permisoDeAlmacenamientoConcedido();
+                // IniciarCamara();
+            } else {
+                permisoDeAlmacenamientoDenegado();
+                /* Permiso no concedido
+                 Aquí habría que explicar al usuario el por qué de este permiso
+                 y volver a solicitarlo .*/
+//
+            }
+        }
+    }
+
+    private void permisoDeAlmacenamientoConcedido() {
+        Toast.makeText(MainActivity.this, "El permiso para el almacenamiento está concedido", Toast.LENGTH_SHORT).show();
         Intent galeria = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         galeria.setType("image/");
-        startActivityForResult(getIntent().createChooser(galeria, "Selecione la Imagen"),10);
+        startActivityForResult(getIntent().createChooser(galeria, "Selecione la Imagen"), 10);
+    }
+
+    private void permisoDeAlmacenamientoDenegado() {
+        Toast.makeText(MainActivity.this, "El permiso para el almacenamiento está denegado", Toast.LENGTH_SHORT).show();
     }
 
     @Override

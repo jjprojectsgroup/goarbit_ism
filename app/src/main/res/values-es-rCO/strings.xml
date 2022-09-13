@@ -49,6 +49,10 @@
     <string name="menu_about">Sobre Nosotros</string>
     <string name="action_logout">Cerrar Sesion</string>
     <string name="action_about">Sobre Nosotros</string>
+    <string name="confirm">Aceptar</string>
+    <string name="passwords_do_not_match">Las contraseñas ingresadas no coinciden</string>
+    <string name="verify_current_password">Ingresa tu contraseña actual</string>
+    <string name="verify_password">Antigua contraseña</string>
     <string name="menu_goarbit_inf">¿Que es GoArbit?</string>
     <string name="menu_tvgo">GoTV</string>
     <string name="menu_token">Token</string>

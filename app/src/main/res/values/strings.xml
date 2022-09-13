@@ -52,6 +52,10 @@
     <string name="action_logout">Logout</string>
     <string name="menu_goarbit">GoArbit</string>
     <string name="register_sign_up_button">Sign Up</string>
+    <string name="passwords_do_not_match">Entered passwords do not match</string>
+    <string name="confirm">Confirm</string>
+    <string name="verify_password">Old Password</string>
+    <string name="verify_current_password">Enter your current password</string>
     <string name="menu_goarbit_inf">What is GoArbit?</string>
     <string name="menu_tvgo">GoTV</string>
     <string name="menu_token">Token</string>

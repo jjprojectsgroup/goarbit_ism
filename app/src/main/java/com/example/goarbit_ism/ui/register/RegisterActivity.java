@@ -45,6 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
     private DatabaseReference db = databaseRef.getReference();
 
     private static final String TAG = "EmailPassword";
+    public static final String order_confirmation="hola";
 
 
     // final ProgressBar loadingProgressBar = binding.loading;

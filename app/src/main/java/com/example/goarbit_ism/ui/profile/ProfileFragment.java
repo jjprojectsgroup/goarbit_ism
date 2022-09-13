@@ -1,10 +1,10 @@
 package com.example.goarbit_ism.ui.profile;
 
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,33 +12,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.goarbit_ism.MainActivity;
 import com.example.goarbit_ism.R;
 import com.example.goarbit_ism.databinding.FragmentProfileBinding;
-import com.example.goarbit_ism.ui.login.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import de.hdodenhof.circleimageview.CircleImageView;
+import java.util.Objects;
 
 public class ProfileFragment extends Fragment {
 
@@ -51,14 +45,17 @@ public class ProfileFragment extends Fragment {
     private EditText inputPassword1 = null;
     private EditText inputPassword2 = null;
     private DatabaseReference mDatabase;
-
+    AlertDialog dialog = null;
+    private ProgressDialog progress ;
+    private FirebaseAuth mAuth;
+    boolean result = false;
     private Button updateButton = null;
-
+    FirebaseUser user = null;
     private String name = null;
     private String lastName = null;
     private String email = null;
     private String userName = null;
-    public static String TAG = "PurchaseConfirmationDialog";
+    public static String TAG = "ProfileFragment";
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         ProfileViewModel profileViewModel =
@@ -66,95 +63,104 @@ public class ProfileFragment extends Fragment {
 
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
+        user = FirebaseAuth.getInstance().getCurrentUser();
         inputName = binding.name;
         inputLastName = binding.lastName;
         inputNickname = binding.userName;
         inputEmail = binding.email;
         inputPassword1 = binding.password1;
         inputPassword2 = binding.password2;
+        progress = new ProgressDialog(getContext());
 
         updateButton = binding.updateButton;
         mDatabase = FirebaseDatabase.getInstance().getReference().child("users");
 
-        updateButton.setOnClickListener(new View.OnClickListener() {
 
+
+        updateButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                String password1 = inputPassword1.getText().toString();
+                String password2 = inputPassword2.getText().toString();
+
+
+                if(password1.length() == 0 || password2.length() == 0 ){
+                    //showMessage("ADVERTENCIA","Las contraseñas estan vacias.",0);
+                    return;
+                }
+                if(password1.length() < 8 || password2.length() < 8){
+                    showMessage("ADVERTENCIA","Las contraseñas deben tener 8 caracteres o mas.",0);
+                    return;
+                }
+                if(password1.equals(password2)) {
+                    //updatePassword();
+                    validatePassword();
+                }else{
+                    showMessage("ADVERTENCIA","Las contraseñas no coinciden.",0);
+                }
                 updateProfile();
             }
 
         });
 
-        if(inputPassword1!=null && inputPassword2!=null ){
-            if(inputPassword1.toString().equals(inputPassword2.toString()) ) {
-                updatePassword();
-            }else{
-               // onCreateDialog();
-            }
-        }
+
         getUserProfile();
         return root;
     }
 
-    public class PurchaseConfirmationDialogFragment extends DialogFragment {
-        @NonNull
-        @Override
-        public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-            return new AlertDialog.Builder(requireContext())
-                    .setMessage("Las contraseñas ingresadas no coinciden")
-                    .setPositiveButton(getString(android.R.string.ok), (dialog, which) -> {} )
-                    .create();
-        }
-
-
+    public void showMessage(String title, String message, int tipo ){
+        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+        //alertDialog.setCancelable(false);
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(message);
+        alertDialog.setButton(getContext().getString(R.string.confirm), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                if (tipo == 1) {
+                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+        alertDialog.show();
     }
 
     private void updateProfile() {
-        FirebaseUser data = FirebaseAuth.getInstance().getCurrentUser();
-        if (data != null && inputName.getText().length() > 0 && inputLastName.getText().length() > 0 && inputNickname.getText().length() > 0) {
-         // mDatabase = FirebaseDatabase.getInstance().getReference();
+        if (user != null && inputName.getText().length() > 0 && inputLastName.getText().length() > 0 && inputNickname.getText().length() > 0) {
 
-         //  UpdateUser user = new UpdateUser(inputName.getText().toString(),inputLastName.getText().toString(),inputNickname.getText().toString());
             Map<String, Object> result = new HashMap<>();
             result.put("name", inputName.getText().toString());
             result.put("lastName", inputLastName.getText().toString());
             result.put("userName", inputNickname.getText().toString());
-         //    Map<String, Object> postValues = user.toMap();
 
-         //   Map<String, Object> childUpdates = new HashMap<>();
-            mDatabase.child(data.getUid()).updateChildren(result);
+            mDatabase.child(user.getUid()).updateChildren(result);
         }
-
     }
 
     public void getUserProfile() {
         // [START get_user_profile]
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
         if (user != null) {
 
             boolean emailVerified = user.isEmailVerified();
 
             String uid = user.getUid();
 
-            mDatabase.child(uid).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DataSnapshot> task) {
-                    if (!task.isSuccessful()) {
-                        Log.e("firebase", "Error getting data", task.getException());
-                    }
-                    else {
-                        Log.d("firebase", String.valueOf(task.getResult().getValue()));
+            mDatabase.child(uid).get().addOnCompleteListener(task -> {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                }
+                else {
+                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
 
-                        name = String.valueOf(task.getResult().child("name").getValue());
-                        email = String.valueOf(task.getResult().child("email").getValue());
-                        lastName = String.valueOf(task.getResult().child("lastName").getValue());
-                        userName = String.valueOf(task.getResult().child("userName").getValue());
+                    name = String.valueOf(task.getResult().child("name").getValue());
+                    email = String.valueOf(task.getResult().child("email").getValue());
+                    lastName = String.valueOf(task.getResult().child("lastName").getValue());
+                    userName = String.valueOf(task.getResult().child("userName").getValue());
 
-                        inputName.setText(name);
-                        inputLastName.setText(lastName);
-                        inputNickname.setText(userName);
-                        inputEmail.setText(email);
-                    }
+                    inputName.setText(name);
+                    inputLastName.setText(lastName);
+                    inputNickname.setText(userName);
+                    inputEmail.setText(email);
                 }
             });
         }
@@ -162,20 +168,88 @@ public class ProfileFragment extends Fragment {
     }
 
     public void updatePassword(){
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String newPassword = "SOME-SECURE-PASSWORD";
-
+        String newPassword = inputPassword2.getText().toString();
+        if(user == null){
+            return;
+        }
         user.updatePassword(newPassword)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "User password updated.");
+                            showMessage("ADVERTENCIA","La contraseña a sido actualizada exitosamente.",1);
                         }
                     }
                 });
     }
+    public void validatePassword() {
+            //boolean result = false;
 
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            View mView = getLayoutInflater().inflate(R.layout.layout_verify, null);
+            final EditText txtPassword = (EditText) mView.findViewById(R.id.txtPassword);
+            Button btnValidar = (Button) mView.findViewById(R.id.btnValidar);
+            ImageButton btnSalir = (ImageButton) mView.findViewById(R.id.btnSalir);
+
+            btnSalir.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+
+            btnValidar.setOnClickListener(view -> {
+                String password = txtPassword.getText().toString().trim();
+                if(!password.isEmpty() && password.length() >= 8) {
+                    progress.setMessage("Espere un Momento: ");
+                    progress.setCanceledOnTouchOutside(false);
+                    progress.show();
+                    verifyPassword(password);
+                }else {
+                    Toast.makeText(getContext(), "Es necesario ingresar una contraseña valida",
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            builder.setView(mView);
+            dialog = builder.create();
+            dialog.show();
+
+      //  return result;
+    }
+
+    private void verifyPassword(String password) {
+
+        mAuth = FirebaseAuth.getInstance();
+        mAuth.signInWithEmailAndPassword(Objects.requireNonNull(user.getEmail()), password)
+                .addOnCompleteListener((Activity) requireContext(), new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithEmail:success");
+                            progress.dismiss();
+                            updatePassword();
+                            result(true);
+
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(getContext(), "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            progress.dismiss();
+                            result(false);
+                        }
+                    }
+                });
+       //return result;
+    }
+
+    private void result(boolean b) {
+        result = b;
+
+    }
 
 
     @Override
