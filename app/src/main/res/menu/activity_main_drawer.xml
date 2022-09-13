@@ -2,8 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
-    <item android:title="menu">
-        <menu>
+
             <item
                 android:id="@+id/nav_home"
                 android:icon="@drawable/ic_baseline_home_24"
@@ -11,13 +10,13 @@
             </item>
             <item
                 android:id="@+id/nav_profile"
-                android:icon="@drawable/person_user"
+                android:icon="@drawable/usuario_black"
                 android:title="@string/menu_profile"
                 />
             <item
                 android:id="@+id/nav_goarbit"
                 android:icon="@drawable/goarbit_icon"
-                android:title="">
+                android:title="@string/menu_goarbit">
             </item>
             <item
                 android:id="@+id/nav_news"
@@ -28,6 +27,46 @@
                 android:id="@+id/nav_calculator"
                 android:icon="@drawable/ic_menu_gallery"
                 android:title="@string/menu_calculator">
+            </item>
+
+
+
+    <item android:title="GOFINTECH group">
+        <menu>
+            <item
+                android:id="@+id/nav_goarbit_inf"
+                android:icon="@drawable/goarbit_icon"
+                android:title="@string/menu_goarbit_inf">
+            </item>
+            <item
+                android:id="@+id/nav_gotv"
+                android:icon="@drawable/gotv_icon"
+                android:title="@string/menu_tvgo"
+                />
+            <item
+                android:id="@+id/nav_token"
+                android:icon="@drawable/token_icon"
+                android:title="@string/menu_token">
+            </item>
+            <item
+                android:id="@+id/nav_iamgo_pro"
+                android:icon="@drawable/iamgopro_icon"
+                android:title="@string/menu_iamgo_pro">
+            </item>
+            <item
+                android:id="@+id/nav_dig_crypto"
+                android:icon="@drawable/dig_crypto_icon"
+                android:title="@string/menu_dig_crypto">
+            </item>
+            <item
+                android:id="@+id/nav_card"
+                android:icon="@drawable/card_icon"
+                android:title="@string/menu_card">
+            </item>
+            <item
+                android:id="@+id/nav_cashiers"
+                android:icon="@drawable/atm_icon"
+                android:title="@string/menu_cashiers">
             </item>
         </menu>
     </item>

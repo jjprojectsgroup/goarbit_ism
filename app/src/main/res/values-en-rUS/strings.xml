@@ -41,7 +41,7 @@
     <string name="menu_goarbit">GoArbit</string>
     <string name="register_sign_up_button">Sign Up</string>
     <string name="menu_profile">Profile</string>
-    <string name="update">UPDATE</string>
+    <string name="update">Update</string>
     <string name="profile">PROFILE</string>
     <string name="new_password">New Password</string>
     <string name="old_password">Old Password</string>
@@ -49,4 +49,11 @@
     <string name="menu_about">About</string>
     <string name="action_about">About</string>
     <string name="action_logout">Logout</string>
+    <string name="menu_goarbit_inf">What is GoArbit?</string>
+    <string name="menu_tvgo">GoTV</string>
+    <string name="menu_token">Token</string>
+    <string name="menu_iamgo_pro">IAMGO_PRO</string>
+    <string name="menu_dig_crypto">DIG CRYPTO</string>
+    <string name="menu_card">Card</string>
+    <string name="menu_cashiers">Cashiers</string>
 </resources>
