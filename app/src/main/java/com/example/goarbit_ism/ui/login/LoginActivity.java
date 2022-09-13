@@ -55,8 +55,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private ProgressDialog progress ;
     private FirebaseAuth mAuth;
-    private static final String TAG = "EmailPassword";
-AlertDialog dialog = null;
+    private static final String TAG = "LoginActivity";
+    AlertDialog dialog = null;
 
 
     String url_Facebook = "https://www.facebook.com/Joan.invertir";
@@ -153,7 +153,6 @@ AlertDialog dialog = null;
         usernameEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -167,30 +166,35 @@ AlertDialog dialog = null;
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (MainActivity.validarConexion(LoginActivity.this)) {
 
-                login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+                    login(usernameEditText.getText().toString(),
+                            passwordEditText.getText().toString());
 
-
+                }
             }
         });
 
         createAccountButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(intent);
+                if (MainActivity.validarConexion(LoginActivity.this)) {
+
+                    Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
         forgotPassword.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
+                if (MainActivity.validarConexion(LoginActivity.this)) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                 View mView = getLayoutInflater().inflate(R.layout.layout_recuperar, null);
-              final EditText txtMail = (EditText) mView.findViewById(R.id.txtMail);
-              Button btnRecuperar = (Button) mView.findViewById(R.id.btnRecuperar);
+                final EditText txtMail = (EditText) mView.findViewById(R.id.txtMail);
+                Button btnRecuperar = (Button) mView.findViewById(R.id.btnRecuperar);
                 ImageButton btnSalir = (ImageButton) mView.findViewById(R.id.btnSalir);
 
                 btnSalir.setOnClickListener(new View.OnClickListener() {
@@ -201,54 +205,64 @@ AlertDialog dialog = null;
                     }
                 });
 
-   btnRecuperar.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View view) {
-        String email = txtMail.getText().toString().trim();
-        if(!email.isEmpty()) {
+                btnRecuperar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (MainActivity.validarConexion(LoginActivity.this)) {
 
-            progress.setMessage("Espere un Momento: ");
-            progress.setCanceledOnTouchOutside(false);
-            progress.show();
-            enviarCorreo(email);
-        }else {
-            Toast.makeText(LoginActivity.this, "Es necesario ingresar un correo electronico",
-                    Toast.LENGTH_SHORT).show();
-        }
-    }
-});
+                            String email = txtMail.getText().toString().trim();
+                            if (!email.isEmpty()) {
+
+                                progress.setMessage("Espere un Momento: ");
+                                progress.setCanceledOnTouchOutside(false);
+                                progress.show();
+                                enviarCorreo(email);
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Es necesario ingresar un correo electronico",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                });
 
                 builder.setView(mView);
-                 dialog = builder.create();
+                dialog = builder.create();
                 dialog.show();
 
             }
+        }
         });
 
 
        btn_Facebook.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                Uri url_F = Uri.parse(url_Facebook);
-                Intent link_F = new Intent(Intent.ACTION_VIEW,url_F);
-                startActivity(link_F);
+                if (MainActivity.validarConexion(LoginActivity.this)) {
+                    Uri url_F = Uri.parse(url_Facebook);
+                    Intent link_F = new Intent(Intent.ACTION_VIEW, url_F);
+                    startActivity(link_F);
+                }
             }
         });
 
         btn_Web.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                Uri url_W = Uri.parse(url_Web);
-                Intent link_W = new Intent(Intent.ACTION_VIEW,url_W);
-                startActivity(link_W);
+                if (MainActivity.validarConexion(LoginActivity.this)) {
+                    Uri url_W = Uri.parse(url_Web);
+                    Intent link_W = new Intent(Intent.ACTION_VIEW, url_W);
+                    startActivity(link_W);
+                }
             }
         });
         btn_Instagram.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                Uri url_I = Uri.parse(url_Instagram);
-                Intent link_I = new Intent(Intent.ACTION_VIEW,url_I);
-                startActivity(link_I);
+                if (MainActivity.validarConexion(LoginActivity.this)) {
+                    Uri url_I = Uri.parse(url_Instagram);
+                    Intent link_I = new Intent(Intent.ACTION_VIEW, url_I);
+                    startActivity(link_I);
+                }
             }
         });
 

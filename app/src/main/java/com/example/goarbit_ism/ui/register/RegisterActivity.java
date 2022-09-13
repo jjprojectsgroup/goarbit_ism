@@ -33,6 +33,9 @@ import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.example.goarbit_ism.ui.util.constantes;
 public class RegisterActivity extends AppCompatActivity {
 
@@ -44,8 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
     FirebaseDatabase databaseRef = FirebaseDatabase.getInstance();
     private DatabaseReference db = databaseRef.getReference();
 
-    private static final String TAG = "EmailPassword";
-    public static final String order_confirmation="hola";
+    private static final String TAG = "RegisterActivity";
 
 
     // final ProgressBar loadingProgressBar = binding.loading;
@@ -72,17 +74,19 @@ public class RegisterActivity extends AppCompatActivity {
         singUpButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
+                if (MainActivity.validarConexion(RegisterActivity.this)) {
 
-               if(!nameEditText.getText().toString().isEmpty() && !lastNameEditText.getText().toString().isEmpty()
-                && !userNameEditText.getText().toString().isEmpty() && !emailEditText.getText().toString().isEmpty()
-                && !password1EditText.getText().toString().isEmpty() && !password2EditText.getText().toString().isEmpty() && password1EditText.getText().toString().equals(password2EditText.getText().toString())){
+                    if (!nameEditText.getText().toString().isEmpty() && !lastNameEditText.getText().toString().isEmpty()
+                            && !userNameEditText.getText().toString().isEmpty() && !emailEditText.getText().toString().isEmpty()
+                            && !password1EditText.getText().toString().isEmpty() && !password2EditText.getText().toString().isEmpty() && password1EditText.getText().toString().equals(password2EditText.getText().toString())) {
 
-                   String[] usuario = new String[10];
-                   usuario[0]= nameEditText.getText().toString();
-                   usuario[1] =lastNameEditText.getText().toString();
-                   usuario[2] =userNameEditText.getText().toString();
-                   usuario[3] =emailEditText.getText().toString();
-                   createAccount(emailEditText.getText().toString(), password1EditText.getText().toString(), usuario);
+                        String[] usuario = new String[10];
+                        usuario[0] = nameEditText.getText().toString();
+                        usuario[1] = lastNameEditText.getText().toString();
+                        usuario[2] = userNameEditText.getText().toString();
+                        usuario[3] = emailEditText.getText().toString();
+                        createAccount(emailEditText.getText().toString(), password1EditText.getText().toString(), usuario);
+                    }
                 }
             }
         });
@@ -142,13 +146,23 @@ public class RegisterActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
+                                Map<String, Object> result = new HashMap<>();
+                                result.put("name", usuario[0]);
+                                result.put("lastName", usuario[1]);
+                                result.put("userName", usuario[2]);
+                                result.put("Email", usuario[3]);
+                                result.put("TyC", "1");
+                                result.put("fecha", fecha);
+                                result.put("photoUrl", constantes.photoUrl_New_User);
+                                db.child("users").child(user.getUid()).updateChildren(result);
                                 Log.d(TAG, "User profile updated.");
+                                //db.child("users").child(uid).setValue(new User(usuario[0], usuario[1],usuario[2], usuario[3], "1", fecha, constantes.photoUrl_New_User));
                                 Intent intent = new Intent( RegisterActivity.this, LoginActivity.class );
                                 startActivity(intent);
                             }
                         }
                     });
-            db.child("users").child(uid).setValue(new User(usuario[0], usuario[1],usuario[2], usuario[3], "1", fecha, constantes.photoUrl_New_User));
+           // db.child("users").child(uid).setValue(new User(usuario[0], usuario[1],usuario[2], usuario[3], "1", fecha, constantes.photoUrl_New_User));
         }
 
     }

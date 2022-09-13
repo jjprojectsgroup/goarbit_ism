@@ -3,6 +3,7 @@ package com.example.goarbit_ism;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,6 +11,8 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -27,7 +30,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -71,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView textName = null;
     private TextView textEmail = null;
     boolean datosPerfil = false;
-    String viewUpdateName = null;
+
 
     UploadTask uploadTask;
     private static final String TAG = "EmailPassword";
@@ -138,9 +140,11 @@ public class MainActivity extends AppCompatActivity {
         btnwhatsapp.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                Uri url_W = Uri.parse(url_Whatsapp);
-                Intent link_W = new Intent(Intent.ACTION_VIEW,url_W);
+                if (validarConexion(MainActivity.this)){
+                    Uri url_W = Uri.parse(url_Whatsapp);
+                Intent link_W = new Intent(Intent.ACTION_VIEW, url_W);
                 startActivity(link_W);
+                }
             }
         });
     }
@@ -165,6 +169,17 @@ public class MainActivity extends AppCompatActivity {
                 Toast.LENGTH_SHORT).show();
         System.out.println("Sesion Cerrada.");
         validacion();
+    }
+
+    public static boolean validarConexion(Context context) {
+        ConnectivityManager cm =
+                (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        return isConnected;
+
     }
 
     private void validacion() {
@@ -371,7 +386,9 @@ public class MainActivity extends AppCompatActivity {
         imageUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cargarImagen();
+                if (validarConexion(MainActivity.this)) {
+                    cargarImagen();
+                }
             }
         });
 

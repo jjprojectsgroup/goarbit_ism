@@ -22,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.goarbit_ism.MainActivity;
 import com.example.goarbit_ism.R;
 import com.example.goarbit_ism.databinding.FragmentProfileBinding;
+import com.example.goarbit_ism.ui.login.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -79,25 +80,27 @@ public class ProfileFragment extends Fragment {
 
         updateButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String password1 = inputPassword1.getText().toString();
-                String password2 = inputPassword2.getText().toString();
+                if (MainActivity.validarConexion(requireContext())) {
 
+                    String password1 = inputPassword1.getText().toString();
+                    String password2 = inputPassword2.getText().toString();
 
-                if(password1.length() == 0 || password2.length() == 0 ){
-                    //showMessage("ADVERTENCIA","Las contraseñas estan vacias.",0);
-                    return;
+                    if (password1.length() == 0 || password2.length() == 0) {
+                        //showMessage("ADVERTENCIA","Las contraseñas estan vacias.",0);
+                        return;
+                    }
+                    if (password1.length() < 8 || password2.length() < 8) {
+                        showMessage("ADVERTENCIA", "Las contraseñas deben tener 8 caracteres o mas.", 0);
+                        return;
+                    }
+                    if (password1.equals(password2)) {
+                        //updatePassword();
+                        validatePassword();
+                    } else {
+                        showMessage("ADVERTENCIA", "Las contraseñas no coinciden.", 0);
+                    }
+                    updateProfile();
                 }
-                if(password1.length() < 8 || password2.length() < 8){
-                    showMessage("ADVERTENCIA","Las contraseñas deben tener 8 caracteres o mas.",0);
-                    return;
-                }
-                if(password1.equals(password2)) {
-                    //updatePassword();
-                    validatePassword();
-                }else{
-                    showMessage("ADVERTENCIA","Las contraseñas no coinciden.",0);
-                }
-                updateProfile();
             }
 
         });
