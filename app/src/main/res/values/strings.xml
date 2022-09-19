@@ -63,6 +63,10 @@
     <string name="menu_dig_crypto">DIG CRYPTO</string>
     <string name="menu_card">Card</string>
     <string name="menu_cashiers">Cashiers</string>
+    <string name="exit_app">Do you want to exit GoArbit?</string>
+    <string name="message_yes">Yes</string>
+    <string name="message_cancel">Cancel</string>
+    <string name="exit_app2">Press back again to exit</string>
 
 
 </resources>

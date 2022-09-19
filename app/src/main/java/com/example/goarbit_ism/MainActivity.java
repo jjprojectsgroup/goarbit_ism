@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -64,6 +65,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
 
 public class MainActivity extends AppCompatActivity {
+
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     ActionBar actionBar;
@@ -194,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
                         FirebaseAuth.getInstance().signOut();
                         Intent intent = new Intent( MainActivity.this, LoginActivity.class );
                         startActivity(intent);
+                        finish();
                         //android.os.Process.killProcess(android.os.Process.myPid()); //Su funcion es algo similar a lo que se llama cuando se presiona el botón "Forzar Detención" o "Administrar aplicaciones", lo cuál mata la aplicación
                         //finish(); Si solo quiere mandar la aplicación a segundo plano
                     }
@@ -440,5 +443,28 @@ public class MainActivity extends AppCompatActivity {
         }
         // [END get_user_profile]
     }
+// Se controla la pulsacion del boton atras
+@Override
+public void onBackPressed() {
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    builder.setMessage(getString(R.string.exit_app))
+            .setPositiveButton(getString(R.string.message_yes), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                    intent.addCategory(Intent.CATEGORY_HOME);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+            })
+            .setNegativeButton(getString(R.string.message_cancel), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+    builder.show();
+}
 
 }

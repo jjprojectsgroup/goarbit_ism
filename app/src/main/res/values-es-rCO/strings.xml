@@ -60,4 +60,8 @@
     <string name="menu_dig_crypto">DIG CRYPTO</string>
     <string name="menu_card">Tarjeta</string>
     <string name="menu_cashiers">Cajeros</string>
+    <string name="exit_app">¿Desea salir de GoArbit?</string>
+    <string name="message_yes">Si</string>
+    <string name="message_cancel">Cancelar</string>
+    <string name="exit_app2">Pulse atrás de nuevo para salir</string>
 </resources>

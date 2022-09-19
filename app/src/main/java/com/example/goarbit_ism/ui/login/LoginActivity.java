@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -81,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent( LoginActivity.this, MainActivity.class );
             startActivity(intent);
             System.out.println("sesion ya iniciada por el usuario "+user.getDisplayName());
+            finish();
         }
 
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
@@ -355,6 +357,7 @@ public class LoginActivity extends AppCompatActivity {
                           //  updateUI(user);
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
+                            finish();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
@@ -408,6 +411,27 @@ public class LoginActivity extends AppCompatActivity {
                 });
         // [END send_email_verification]
     }
-
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getString(R.string.exit_app))
+                .setPositiveButton(getString(R.string.message_yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        intent.addCategory(Intent.CATEGORY_HOME);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+                })
+                .setNegativeButton(getString(R.string.message_cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        builder.show();
+    }
 
 }
