@@ -60,6 +60,13 @@
     <string name="menu_dig_crypto">DIG CRYPTO</string>
     <string name="menu_card">Tarjeta</string>
     <string name="menu_cashiers">Cajeros</string>
+    <string name="successful_process">" Proceso exitoso"</string>
+    <string name="failed_process">" Proceso fallido"</string>
+    <string name="password_must_be_8_characters_or_more">La contraseña debe tener 8 caracteres o mas.</string>
+    <string name="Passwords_do_not_match">Las contraseñas no coinciden.</string>
+    <string name="user_data_updated_successfully">Datos de usuario actualizados exitosamente.</string>
+    <string name="password_updated">La contraseña ha sido actualizada exitosamente.</string>
+    <string name="storage_access">Para poder cargar una imagen de perfil es necesario ingresar al almacenamiento de tu dispositivo. Permite que \'GoArbit ISM\' pueda acceder al almacenamiento.</string>
     <string name="exit_app">¿Desea salir de GoArbit?</string>
     <string name="message_yes">Si</string>
     <string name="message_cancel">Cancelar</string>

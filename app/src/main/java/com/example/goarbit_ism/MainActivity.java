@@ -76,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView textEmail = null;
     boolean datosPerfil = false;
 
-
     UploadTask uploadTask;
     private static final String TAG = "EmailPassword";
     private static final int CODIGO_PERMISOS_STORAGE = 1;
@@ -118,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent( MainActivity.this, LoginActivity.class );
             startActivity(intent);
             System.out.println("no hay sesion activa ");
-
         }
         actionBar = getSupportActionBar();
         ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#2A2971"));
@@ -149,6 +147,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+
     }
 
     @Override
@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
             //Mostramos un AlertDialog al usuario explicándole la necesidad del permiso
             AlertDialog AD;
             AlertDialog.Builder ADBuilder = new AlertDialog.Builder(MainActivity.this);
-            ADBuilder.setMessage("Para poder cargar una imagen de perfil es necesario ingresar al almacenamiento de tu dispositivo. Permite que 'GoArbit ISM' pueda acceder al almacenamiento.");
+            ADBuilder.setMessage(getString(R.string.storage_access));
             ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -373,6 +373,15 @@ public class MainActivity extends AppCompatActivity {
             });
         }
     }
+   /* @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+           // super.finish();
+            Toast.makeText(MainActivity.this, "cerrar app",
+                    Toast.LENGTH_SHORT).show();
+        }
+        return super.onKeyDown(keyCode, event);
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

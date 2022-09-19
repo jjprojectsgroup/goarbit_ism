@@ -28,6 +28,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -80,26 +81,30 @@ public class ProfileFragment extends Fragment {
 
         updateButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (MainActivity.validarConexion(requireContext())) {
+                if (MainActivity.validarConexion(getContext())) {
 
+                    progress.setMessage("Actualizando Datos... ");
+                    progress.setCanceledOnTouchOutside(false);
+                    progress.show();
                     String password1 = inputPassword1.getText().toString();
                     String password2 = inputPassword2.getText().toString();
 
                     if (password1.length() == 0 || password2.length() == 0) {
-                        //showMessage("ADVERTENCIA","Las contraseñas estan vacias.",0);
+                        updateProfile(false);
                         return;
                     }
                     if (password1.length() < 8 || password2.length() < 8) {
-                        showMessage("ADVERTENCIA", "Las contraseñas deben tener 8 caracteres o mas.", 0);
+                        progress.dismiss();
+                        showMessage(getString(R.string.failed_process), getString(R.string.password_must_be_8_characters_or_more), 0);
                         return;
                     }
                     if (password1.equals(password2)) {
-                        //updatePassword();
                         validatePassword();
                     } else {
-                        showMessage("ADVERTENCIA", "Las contraseñas no coinciden.", 0);
+                        progress.dismiss();
+                        showMessage(getString(R.string.failed_process), getString(R.string.passwords_do_not_match), 0);
                     }
-                    updateProfile();
+                    // updateProfile(false);
                 }
             }
 
@@ -127,15 +132,42 @@ public class ProfileFragment extends Fragment {
         alertDialog.show();
     }
 
-    private void updateProfile() {
-        if (user != null && inputName.getText().length() > 0 && inputLastName.getText().length() > 0 && inputNickname.getText().length() > 0) {
+    private void updateProfile(boolean password) {
+        if (user != null && inputName.getText().length() > 0 && inputLastName.getText().length() > 0) {
 
-            Map<String, Object> result = new HashMap<>();
-            result.put("name", inputName.getText().toString());
-            result.put("lastName", inputLastName.getText().toString());
-            result.put("userName", inputNickname.getText().toString());
+            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(inputName.getText().toString())
+                    .build();
 
-            mDatabase.child(user.getUid()).updateChildren(result);
+            user.updateProfile(profileUpdates)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Map<String, Object> result = new HashMap<>();
+                                result.put("name", inputName.getText().toString());
+                                result.put("lastName", inputLastName.getText().toString());
+                                mDatabase.child(user.getUid()).updateChildren(result);
+
+                                if(password){
+                                    String newPassword = inputPassword2.getText().toString();
+                                    user.updatePassword(newPassword)
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Log.d(TAG, "User password updated.");
+                                                    }
+                                                }
+                                            });
+                                }
+                                getUserProfile();
+                                progress.dismiss();
+
+                                showMessage(getString(R.string.successful_process),getString(R.string.user_data_updated_successfully),1);
+                            }
+                        }
+                    });
         }
     }
 
@@ -181,7 +213,7 @@ public class ProfileFragment extends Fragment {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "User password updated.");
-                            showMessage("ADVERTENCIA","La contraseña a sido actualizada exitosamente.",1);
+                            showMessage(getString(R.string.failed_process),getString(R.string.password_updated),1);
                         }
                     }
                 });
@@ -210,6 +242,7 @@ public class ProfileFragment extends Fragment {
                     progress.show();
                     verifyPassword(password);
                 }else {
+                    progress.dismiss();
                     Toast.makeText(getContext(), "Es necesario ingresar una contraseña valida",
                             Toast.LENGTH_SHORT).show();
                 }
@@ -231,22 +264,20 @@ public class ProfileFragment extends Fragment {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success");
+                            Log.d(TAG, "signIn:success");
                             progress.dismiss();
-                            updatePassword();
+                            updateProfile(true);
                             result(true);
 
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(getContext(), "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            Log.w(TAG, "signIn:failure", task.getException());
                             progress.dismiss();
                             result(false);
                         }
                     }
                 });
-       //return result;
+        //return result;
     }
 
     private void result(boolean b) {

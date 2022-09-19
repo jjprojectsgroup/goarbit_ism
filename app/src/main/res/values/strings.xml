@@ -63,6 +63,13 @@
     <string name="menu_dig_crypto">DIG CRYPTO</string>
     <string name="menu_card">Card</string>
     <string name="menu_cashiers">Cashiers</string>
+    <string name="successful_process">Successful process</string>
+    <string name="failed_process">Failed process</string>
+    <string name="password_must_be_8_characters_or_more">Password must be 8 characters or more.</string>
+    <string name="Passwords_do_not_match">Passwords do not match.</string>
+    <string name="user_data_updated_successfully">User data updated successfully.</string>
+    <string name="password_updated">The password has been successfully updated.</string>
+    <string name="storage_access">In order to upload a profile image, you need to access your device\'s storage. Allows \'GoArbit ISM\' to access storage.</string>
     <string name="exit_app">Do you want to exit GoArbit?</string>
     <string name="message_yes">Yes</string>
     <string name="message_cancel">Cancel</string>

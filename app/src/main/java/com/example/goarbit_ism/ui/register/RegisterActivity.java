@@ -13,13 +13,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.bumptech.glide.Glide;
 import com.example.goarbit_ism.MainActivity;
 import com.example.goarbit_ism.R;
 import com.example.goarbit_ism.databinding.ActivityRegisterBinding;
 import com.example.goarbit_ism.ui.condicion.CondicionActivity;
 import com.example.goarbit_ism.ui.login.LoginActivity;
-import com.example.goarbit_ism.ui.user.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -28,15 +26,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.example.goarbit_ism.ui.util.constantes;
+import com.example.goarbit_ism.ui.util.Constantes;
 public class RegisterActivity extends AppCompatActivity {
 
 
@@ -138,7 +134,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                     .setDisplayName(usuario[0]+" "+usuario[1])
-                    .setPhotoUri(Uri.parse(constantes.photoUrl_New_User))
+                    .setPhotoUri(Uri.parse(Constantes.photoUrl_New_User))
                     .build();
 
             user.updateProfile(profileUpdates)
@@ -153,7 +149,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 result.put("Email", usuario[3]);
                                 result.put("TyC", "1");
                                 result.put("fecha", fecha);
-                                result.put("photoUrl", constantes.photoUrl_New_User);
+                                result.put("photoUrl", Constantes.photoUrl_New_User);
                                 db.child("users").child(user.getUid()).updateChildren(result);
                                 Log.d(TAG, "User profile updated.");
                                 //db.child("users").child(uid).setValue(new User(usuario[0], usuario[1],usuario[2], usuario[3], "1", fecha, constantes.photoUrl_New_User));

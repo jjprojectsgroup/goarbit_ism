@@ -36,6 +36,7 @@ import com.example.goarbit_ism.MainActivity;
 import com.example.goarbit_ism.R;
 import com.example.goarbit_ism.databinding.ActivityLoginBinding;
 import com.example.goarbit_ism.ui.user.User;
+import com.example.goarbit_ism.ui.util.Constantes;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -60,9 +61,7 @@ public class LoginActivity extends AppCompatActivity {
     AlertDialog dialog = null;
 
 
-    String url_Facebook = "https://www.facebook.com/Joan.invertir";
-    String url_Web ="https://invertirsinmiedo.com/";
-            String url_Instagram ="https://www.instagram.com/invertir_sinmiedo/";
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -170,6 +169,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (MainActivity.validarConexion(LoginActivity.this)) {
 
+                    progress.setMessage("Iniciando Sesion... ");
+                    progress.setCanceledOnTouchOutside(false);
+                    progress.show();
                     login(usernameEditText.getText().toString(),
                             passwordEditText.getText().toString());
 
@@ -240,7 +242,7 @@ public class LoginActivity extends AppCompatActivity {
 
             public void onClick(View v) {
                 if (MainActivity.validarConexion(LoginActivity.this)) {
-                    Uri url_F = Uri.parse(url_Facebook);
+                    Uri url_F = Uri.parse(Constantes.url_Facebook);
                     Intent link_F = new Intent(Intent.ACTION_VIEW, url_F);
                     startActivity(link_F);
                 }
@@ -251,7 +253,7 @@ public class LoginActivity extends AppCompatActivity {
 
             public void onClick(View v) {
                 if (MainActivity.validarConexion(LoginActivity.this)) {
-                    Uri url_W = Uri.parse(url_Web);
+                    Uri url_W = Uri.parse(Constantes.url_Web);
                     Intent link_W = new Intent(Intent.ACTION_VIEW, url_W);
                     startActivity(link_W);
                 }
@@ -261,7 +263,7 @@ public class LoginActivity extends AppCompatActivity {
 
             public void onClick(View v) {
                 if (MainActivity.validarConexion(LoginActivity.this)) {
-                    Uri url_I = Uri.parse(url_Instagram);
+                    Uri url_I = Uri.parse(Constantes.url_Instagram);
                     Intent link_I = new Intent(Intent.ACTION_VIEW, url_I);
                     startActivity(link_I);
                 }
@@ -351,10 +353,9 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
-                            Toast.makeText(LoginActivity.this, "Ingreso Exitoso.",
-                                    Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
                           //  updateUI(user);
+                            progress.dismiss();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();
@@ -371,47 +372,8 @@ public class LoginActivity extends AppCompatActivity {
 
         // [END sign_in_with_email]
     }
-
-    public void signOut() {
-        // [START auth_sign_out]
-        FirebaseAuth.getInstance().signOut();
-        // [END auth_sign_out]
-    }
-
-    public void getUserProfile() {
-        // [START get_user_profile]
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            // Name, email address, and profile photo Url
-            String name = user.getDisplayName();
-            String email = user.getEmail();
-            Uri photoUrl = user.getPhotoUrl();
-
-            // Check if user's email is verified
-            boolean emailVerified = user.isEmailVerified();
-
-            // The user's ID, unique to the Firebase project. Do NOT use this value to
-            // authenticate with your backend server, if you have one. Use
-            // FirebaseUser.getIdToken() instead.
-            String uid = user.getUid();
-        }
-        // [END get_user_profile]
-    }
-
-    private void sendEmailVerification() {
-        // Send verification email
-        // [START send_email_verification]
-        final FirebaseUser user = mAuth.getCurrentUser();
-        user.sendEmailVerification()
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        // Email sent
-                    }
-                });
-        // [END send_email_verification]
-    }
-    @Override
+    
+        @Override
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(getString(R.string.exit_app))
