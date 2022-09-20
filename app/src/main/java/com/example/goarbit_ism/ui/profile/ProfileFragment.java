@@ -136,7 +136,7 @@ public class ProfileFragment extends Fragment {
         if (user != null && inputName.getText().length() > 0 && inputLastName.getText().length() > 0) {
 
             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                    .setDisplayName(inputName.getText().toString())
+                    .setDisplayName(inputName.getText().toString()+" "+inputLastName.getText().toString())
                     .build();
 
             user.updateProfile(profileUpdates)
