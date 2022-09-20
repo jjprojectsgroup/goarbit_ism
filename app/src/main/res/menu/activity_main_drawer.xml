@@ -68,6 +68,11 @@
                 android:icon="@drawable/atm_icon"
                 android:title="@string/menu_cashiers">
             </item>
+            <item
+                android:id="@+id/nav_Stake"
+                android:icon="@drawable/token_icon"
+                android:title="@string/menu_stake">
+            </item>
         </menu>
     </item>
 

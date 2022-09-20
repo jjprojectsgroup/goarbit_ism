@@ -10,6 +10,8 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.example.goarbit_ism.ui.util.Constantes;
+
 public class GoarbitActivity extends AppCompatActivity {
 
     WebView webView;
@@ -25,7 +27,7 @@ public class GoarbitActivity extends AppCompatActivity {
         webView.setWebViewClient(new WebViewClient());
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
-        webView.loadUrl("https://goarbit.com/auth/login");
+        webView.loadUrl(Constantes.url_GoArbit);
     }
 
     @Override

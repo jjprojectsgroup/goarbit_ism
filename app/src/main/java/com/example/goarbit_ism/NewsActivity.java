@@ -21,6 +21,7 @@ import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 import com.example.goarbit_ism.databinding.ActivityMainBinding;
+import com.example.goarbit_ism.ui.util.Constantes;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,7 +48,7 @@ public class NewsActivity extends AppCompatActivity {
         webView.setWebViewClient(new WebViewClient());
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
-        webView.loadUrl("https://invertirsinmiedo.com/category/ultimas-noticias/");
+        webView.loadUrl(Constantes.url_News);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }

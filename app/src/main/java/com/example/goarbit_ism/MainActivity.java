@@ -151,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
@@ -158,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_about:
                 about();
                 return true;
+
             case R.id.action_logout:
                 logout();
                 return true;
