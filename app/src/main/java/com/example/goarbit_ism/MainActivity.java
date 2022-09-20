@@ -31,6 +31,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -42,6 +43,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.goarbit_ism.databinding.ActivityMainBinding;
 import com.example.goarbit_ism.ui.login.LoginActivity;
+import com.example.goarbit_ism.ui.util.Constantes;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -145,6 +147,48 @@ public class MainActivity extends AppCompatActivity {
                 Intent link_W = new Intent(Intent.ACTION_VIEW, url_W);
                 startActivity(link_W);
                 }
+            }
+        });
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                Bundle extras = new Bundle();
+
+                int id=menuItem.getItemId();
+                //it's possible to do more actions on several items, if there is a large amount of items I prefer switch(){case} instead of if()
+                if (id==R.id.nav_goarbit_inf){
+                    extras.putString("URL", Constantes.url_GoArbit_inf);
+                }
+                if (id==R.id.nav_gotv){
+                    extras.putString("URL", Constantes.url_GoTv);
+                }
+                if (id==R.id.nav_token){
+                    extras.putString("URL", Constantes.url_Token);
+                }
+                if (id==R.id.nav_iamgo_pro){
+                    extras.putString("URL", Constantes.url_Iamgo_Pro);
+                }
+                if (id==R.id.nav_dig_crypto){
+                    extras.putString("URL", Constantes.url_Dig_Crypto);
+                }
+                if (id==R.id.nav_card){
+                    extras.putString("URL", Constantes.url_Card);
+                }
+                if (id==R.id.nav_cashiers){
+                    extras.putString("URL", Constantes.url_Cashiers);
+                }
+                if (id==R.id.nav_Stake){
+                    extras.putString("URL", Constantes.url_Stake);
+                }
+                Intent intent = new Intent(MainActivity.this, ExternalActivity.class);
+                intent.putExtras(extras);
+                startActivity(intent);
+                //This is for maintaining the behavior of the Navigation view
+                NavigationUI.onNavDestinationSelected(menuItem,navController);
+                //This is for closing the drawer after acting on it
+                drawer.closeDrawer(GravityCompat.START);
+                return true;
             }
         });
 

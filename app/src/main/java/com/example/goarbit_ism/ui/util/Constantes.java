@@ -7,12 +7,12 @@ public class Constantes {
     public static final String url_Instagram ="https://www.instagram.com/invertir_sinmiedo/";
     public static final String url_News ="https://invertirsinmiedo.com/category/ultimas-noticias/";
     public static final String url_GoArbit ="https://goarbit.com/auth/login";
-    public static final String url_GoArbit_inf ="";
-    public static final String url_GoTv ="";
-    public static final String url_Token ="";
-    public static final String url_Iamgo_Pro ="";
-    public static final String url_Dig_Crypto ="";
-    public static final String url_Card ="";
-    public static final String url_Cashiers ="";
-    public static final String url_Stake ="";
+    public static final String url_GoArbit_inf ="https://invertirsinmiedo.com/gofintech-group/#goarbit";
+    public static final String url_GoTv ="https://invertirsinmiedo.com/gofintech-group/#gotv";
+    public static final String url_Token ="https://invertirsinmiedo.com/gofintech-group/#square";
+    public static final String url_Iamgo_Pro ="https://invertirsinmiedo.com/gofintech-group/#iamgo-pro";
+    public static final String url_Dig_Crypto ="https://invertirsinmiedo.com/gofintech-group/#dig-crypto";
+    public static final String url_Card ="https://invertirsinmiedo.com/gofintech-group/#tarjetas";
+    public static final String url_Cashiers ="https://invertirsinmiedo.com/gofintech-group/#cajeros";
+    public static final String url_Stake ="https://invertirsinmiedo.com/gofintech-group/#stake";
 }

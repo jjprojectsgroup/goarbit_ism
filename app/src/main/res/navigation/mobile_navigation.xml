@@ -34,46 +34,4 @@
         android:name="com.example.goarbit_ism.GoarbitActivity"
         android:label="@string/menu_goarbit"
         tools:layout="@layout/activity_goarbit" />
-    <activity
-        android:id="@+id/nav_goarbit_inf"
-        android:name="com.example.goarbit_ism.ExternalActivity"
-        android:label="activity_external"/>
-    <activity
-        android:id="@+id/nav_gotv"
-        android:name="com.example.goarbit_ism.ExternalActivity"
-        android:label="activity_external"
-        tools:layout="@layout/activity_external"
-       />
-    <activity
-        android:id="@+id/nav_token"
-        android:name="com.example.goarbit_ism.ExternalActivity"
-        android:label="activity_external"
-        tools:layout="@layout/activity_external" />
-    <activity
-        android:id="@+id/nav_iamgo_pro"
-        android:name="com.example.goarbit_ism.ExternalActivity"
-        android:label="activity_external"
-        tools:layout="@layout/activity_external" />
-    <activity
-        android:id="@+id/nav_dig_crypto"
-        android:name="com.example.goarbit_ism.ExternalActivity"
-        android:label="activity_external"
-        tools:layout="@layout/activity_external" />
-    <activity
-        android:id="@+id/nav_card"
-        android:name="com.example.goarbit_ism.ExternalActivity"
-        android:label="activity_external"
-        tools:layout="@layout/activity_external" />
-    <activity
-        android:id="@+id/nav_cashiers"
-        android:name="com.example.goarbit_ism.ExternalActivity"
-        android:label="activity_external"
-        tools:layout="@layout/activity_external" />
-    <activity
-        android:id="@+id/nav_Stake"
-        android:name="com.example.goarbit_ism.ExternalActivity"
-        android:label="activity_external"
-        tools:layout="@layout/activity_external" />
-
-
 </navigation>
