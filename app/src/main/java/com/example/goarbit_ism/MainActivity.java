@@ -42,7 +42,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.goarbit_ism.databinding.ActivityMainBinding;
+import com.example.goarbit_ism.ui.home.HomeFragment;
 import com.example.goarbit_ism.ui.login.LoginActivity;
+import com.example.goarbit_ism.ui.profile.ProfileFragment;
 import com.example.goarbit_ism.ui.util.Constantes;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -157,6 +159,21 @@ public class MainActivity extends AppCompatActivity {
 
                 int id=menuItem.getItemId();
                 //it's possible to do more actions on several items, if there is a large amount of items I prefer switch(){case} instead of if()
+                if (id==R.id.nav_home){
+                    extras=null;
+                }
+                if (id==R.id.nav_profile){
+                    extras=null;
+                }
+                if (id==R.id.nav_goarbit){
+                    extras=null;
+                }
+                if (id==R.id.nav_news){
+                    extras=null;
+                }
+                if (id==R.id.nav_calculator){
+                    extras=null;
+                }
                 if (id==R.id.nav_goarbit_inf){
                     extras.putString("URL", Constantes.url_GoArbit_inf);
                 }
@@ -181,14 +198,20 @@ public class MainActivity extends AppCompatActivity {
                 if (id==R.id.nav_Stake){
                     extras.putString("URL", Constantes.url_Stake);
                 }
-                Intent intent = new Intent(MainActivity.this, ExternalActivity.class);
-                intent.putExtras(extras);
-                startActivity(intent);
-                //This is for maintaining the behavior of the Navigation view
-                NavigationUI.onNavDestinationSelected(menuItem,navController);
-                //This is for closing the drawer after acting on it
-                drawer.closeDrawer(GravityCompat.START);
-                return true;
+                if(extras != null){
+                    System.out.println("----------------*************************Extras: " + extras);
+                    Intent intent = new Intent(MainActivity.this, ExternalActivity.class);
+                    intent.putExtras(extras);
+                    startActivity(intent);
+                }{
+                    //This is for maintaining the behavior of the Navigation view
+                    NavigationUI.onNavDestinationSelected(menuItem,navController);
+                    //This is for closing the drawer after acting on it
+                    drawer.closeDrawer(GravityCompat.START);
+                    return true;
+                }
+
+
             }
         });
 
