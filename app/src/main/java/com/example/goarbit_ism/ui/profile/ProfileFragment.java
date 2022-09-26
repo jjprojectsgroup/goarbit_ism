@@ -3,6 +3,7 @@ package com.example.goarbit_ism.ui.profile;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,7 +23,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.goarbit_ism.MainActivity;
 import com.example.goarbit_ism.R;
 import com.example.goarbit_ism.databinding.FragmentProfileBinding;
-import com.example.goarbit_ism.ui.login.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -56,7 +56,6 @@ public class ProfileFragment extends Fragment {
     private String name = null;
     private String lastName = null;
     private String email = null;
-    private String userName = null;
     public static String TAG = "ProfileFragment";
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -68,7 +67,6 @@ public class ProfileFragment extends Fragment {
         user = FirebaseAuth.getInstance().getCurrentUser();
         inputName = binding.name;
         inputLastName = binding.lastName;
-        inputNickname = binding.userName;
         inputEmail = binding.email;
         inputPassword1 = binding.password1;
         inputPassword2 = binding.password2;
@@ -83,7 +81,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 if (MainActivity.validarConexion(getContext())) {
 
-                    progress.setMessage("Actualizando Datos... ");
+                    progress.setMessage(getString(R.string.message_updating_data));
                     progress.setCanceledOnTouchOutside(false);
                     progress.show();
                     String password1 = inputPassword1.getText().toString();
@@ -95,16 +93,18 @@ public class ProfileFragment extends Fragment {
                     }
                     if (password1.length() < 8 || password2.length() < 8) {
                         progress.dismiss();
-                        showMessage(getString(R.string.failed_process), getString(R.string.password_must_be_8_characters_or_more), 0);
+                        showMessage(getString(R.string.failed_process), getString(R.string.password_must_be_8_characters_or_more), 0, getContext());
                         return;
                     }
                     if (password1.equals(password2)) {
                         validatePassword();
                     } else {
                         progress.dismiss();
-                        showMessage(getString(R.string.failed_process), getString(R.string.passwords_do_not_match), 0);
+                        showMessage(getString(R.string.failed_process), getString(R.string.message_passwords_not_match), 0, getContext());
                     }
                     // updateProfile(false);
+                }else{
+                    showMessage(getString(R.string.failed_process),getString(R.string.message_connection),1, getContext());
                 }
             }
 
@@ -115,16 +115,16 @@ public class ProfileFragment extends Fragment {
         return root;
     }
 
-    public void showMessage(String title, String message, int tipo ){
-        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+    public void showMessage(String title, String message, int tipo, Context context){
+        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
         //alertDialog.setCancelable(false);
         alertDialog.setTitle(title);
         alertDialog.setMessage(message);
-        alertDialog.setButton(getContext().getString(R.string.confirm), new DialogInterface.OnClickListener() {
+        alertDialog.setButton(context.getString(R.string.confirm), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 if (tipo == 1) {
-                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    Intent intent = new Intent(context, MainActivity.class);
                     startActivity(intent);
                 }
             }
@@ -164,7 +164,7 @@ public class ProfileFragment extends Fragment {
                                 getUserProfile();
                                 progress.dismiss();
 
-                                showMessage(getString(R.string.successful_process),getString(R.string.user_data_updated_successfully),1);
+                                showMessage(getString(R.string.successful_process),getString(R.string.user_data_updated_successfully),1, getContext());
                             }
                         }
                     });
@@ -190,11 +190,9 @@ public class ProfileFragment extends Fragment {
                     name = String.valueOf(task.getResult().child("name").getValue());
                     email = String.valueOf(task.getResult().child("email").getValue());
                     lastName = String.valueOf(task.getResult().child("lastName").getValue());
-                    userName = String.valueOf(task.getResult().child("userName").getValue());
 
                     inputName.setText(name);
                     inputLastName.setText(lastName);
-                    inputNickname.setText(userName);
                     inputEmail.setText(email);
                 }
             });
@@ -213,7 +211,7 @@ public class ProfileFragment extends Fragment {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "User password updated.");
-                            showMessage(getString(R.string.failed_process),getString(R.string.password_updated),1);
+                            showMessage(getString(R.string.failed_process),getString(R.string.password_updated),1, getContext());
                         }
                     }
                 });
@@ -243,7 +241,7 @@ public class ProfileFragment extends Fragment {
                     verifyPassword(password);
                 }else {
                     progress.dismiss();
-                    Toast.makeText(getContext(), "Es necesario ingresar una contraseña valida",
+                    Toast.makeText(getContext(), getString(R.string.message_valid_password),
                             Toast.LENGTH_SHORT).show();
                 }
             });
@@ -273,12 +271,16 @@ public class ProfileFragment extends Fragment {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signIn:failure", task.getException());
                             progress.dismiss();
+                            Toast.makeText(getContext(), getString(R.string.message_password_incorrect),
+                                    Toast.LENGTH_SHORT).show();
+
                             result(false);
                         }
                     }
                 });
         //return result;
     }
+
 
     private void result(boolean b) {
         result = b;

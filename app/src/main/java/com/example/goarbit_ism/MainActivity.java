@@ -17,7 +17,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,7 +41,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.goarbit_ism.databinding.ActivityMainBinding;
-import com.example.goarbit_ism.ui.home.HomeFragment;
 import com.example.goarbit_ism.ui.login.LoginActivity;
 import com.example.goarbit_ism.ui.profile.ProfileFragment;
 import com.example.goarbit_ism.ui.util.Constantes;
@@ -95,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
     private StorageReference storageReference;
 /////
 
-    String url_Whatsapp = "https://wa.me/573004761225";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,9 +142,12 @@ public class MainActivity extends AppCompatActivity {
 
             public void onClick(View v) {
                 if (validarConexion(MainActivity.this)){
-                    Uri url_W = Uri.parse(url_Whatsapp);
+                    Uri url_W = Uri.parse(Constantes.url_Whatsapp);
                 Intent link_W = new Intent(Intent.ACTION_VIEW, url_W);
                 startActivity(link_W);
+                }else{
+                    Toast.makeText(MainActivity.this, getString(R.string.message_connection),
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -156,7 +156,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 Bundle extras = new Bundle();
+        if(validarConexion(MainActivity.this)){
 
+
+        }else{
+            Toast.makeText(MainActivity.this, getString(R.string.message_connection),
+                    Toast.LENGTH_SHORT).show();
+
+            return true;
+        }
                 int id=menuItem.getItemId();
                 //it's possible to do more actions on several items, if there is a large amount of items I prefer switch(){case} instead of if()
                 if (id==R.id.nav_home){
@@ -224,7 +232,8 @@ public class MainActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.action_about:
-                about();
+                Intent intent = new Intent( MainActivity.this, AboutActivity.class );
+                startActivity(intent);
                 return true;
 
             case R.id.action_logout:
@@ -236,8 +245,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void logout() {
-        Toast.makeText(MainActivity.this, "entro en logout.",
-                Toast.LENGTH_SHORT).show();
+
         System.out.println("Sesion Cerrada.");
         validacion();
     }
@@ -249,6 +257,7 @@ public class MainActivity extends AppCompatActivity {
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         boolean isConnected = activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
+
         return isConnected;
 
     }
@@ -272,12 +281,6 @@ public class MainActivity extends AppCompatActivity {
                 }).show();
     }
 
-    private void about() {
-        Toast.makeText(MainActivity.this, "entro en about.",
-                Toast.LENGTH_SHORT).show();
-        System.out.println("entro en about.");
-
-    }
 
     public void cargarImagen(){
         if (ActivityCompat.shouldShowRequestPermissionRationale(this,
@@ -394,8 +397,6 @@ public class MainActivity extends AppCompatActivity {
     private void updateUI(FirebaseUser user, Uri ruta, byte[] thumb_byte) {
 
         if (user != null && ruta != null) {
-            Toast.makeText(MainActivity.this, "entro en registrar datos.",
-                    Toast.LENGTH_SHORT).show();
 
             String uid = user.getUid();
             final StorageReference ref = dbstorage.child("users/" + ruta.getLastPathSegment());
@@ -469,6 +470,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (validarConexion(MainActivity.this)) {
                     cargarImagen();
+                }else {
+                    Toast.makeText(MainActivity.this, getString(R.string.message_connection),
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -543,6 +547,17 @@ public void onBackPressed() {
                 }
             });
     builder.show();
+}
+public void errorConecction(){
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    builder.setMessage(getString(R.string.message_connection))
+            .setNegativeButton(("Ok"), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    return;
+                }
+            });
 }
 
 }

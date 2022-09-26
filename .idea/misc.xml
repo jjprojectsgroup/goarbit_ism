@@ -6,11 +6,13 @@
         <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.266" />
         <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/drawable/checked.xml" value="0.1565" />
         <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/drawable/custom_checkbox.xml" value="0.1565" />
+        <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/drawable/diagonallayout_circle.xml" value="0.1525" />
         <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/drawable/ic_launcher_background.xml" value="0.266" />
         <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/drawable/rounded_button.xml" value="0.18" />
         <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/drawable/unchecked.xml" value="0.1565" />
         <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.23560910307898258" />
         <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/layout-w936dp/activity_login.xml" value="0.2260928961748634" />
+        <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/layout/activity_about.xml" value="0.25" />
         <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/layout/activity_condicion.xml" value="0.33" />
         <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/layout/activity_external.xml" value="0.1" />
         <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/layout/activity_goarbit.xml" value="0.1" />
@@ -23,7 +25,7 @@
         <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/layout/content_main.xml" value="0.2536231884057971" />
         <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/layout/fragment_gallery.xml" value="0.1" />
         <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/layout/fragment_home.xml" value="0.2536231884057971" />
-        <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/layout/fragment_profile.xml" value="0.1" />
+        <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
         <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/layout/fragment_recuperar.xml" value="0.25" />
         <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/layout/fragment_slideshow.xml" value="0.17831813576494426" />
         <entry key="..\:/JJPROJECTS/goarbit_ism/app/src/main/res/layout/layout_recuperar.xml" value="0.25" />

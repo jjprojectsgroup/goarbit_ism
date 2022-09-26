@@ -52,15 +52,15 @@
     <string name="action_logout">Logout</string>
     <string name="menu_goarbit">GoArbit</string>
     <string name="register_sign_up_button">Sign Up</string>
-    <string name="passwords_do_not_match">Entered passwords do not match</string>
+    <string name="message_passwords_not_match">Entered passwords do not match</string>
     <string name="confirm">Confirm</string>
     <string name="verify_password">Old Password</string>
     <string name="verify_current_password">Enter your current password</string>
     <string name="menu_goarbit_inf">What is GoArbit?</string>
     <string name="menu_tvgo">GoTV</string>
     <string name="menu_token">Token</string>
-    <string name="menu_iamgo_pro">IAMGO_PRO</string>
-    <string name="menu_dig_crypto">DIG CRYPTO</string>
+    <string name="menu_iamgo_pro">IAMGO PRO</string>
+    <string name="menu_dig_crypto">Dig Crypto</string>
     <string name="menu_card">Card</string>
     <string name="menu_cashiers">Cashiers</string>
     <string name="successful_process">Successful process</string>
@@ -75,6 +75,17 @@
     <string name="message_cancel">Cancel</string>
     <string name="exit_app2">Press back again to exit</string>
     <string name="menu_stake">Stake</string>
+    <string name="message_connection">Does not have internet connection</string>
+    <string name="message_incorrect">Incorrect user or password</string>
+    <string name="message_password_incorrect">The password entered is incorrect</string>
+    <string name="message_valid_password">You need to enter a valid password</string>
+    <string name="message_updating_data">Updating Data...</string>
+    <string name="message_empty_field">empty fields, you must fill in all fields</string>
+    <string name="message_accept_terms">To create an account you must accept the terms and conditions</string>
+    <string name="message_verify_valid">verify that the email is valid</string>
+    <string name="message_logging">Logging in...</string>
+    <string name="message_creating_account">Creating Account...</string>
+    <string name="message_successful_reg">Successful registration</string>
 
 
 </resources>

@@ -1,11 +1,15 @@
 package com.example.goarbit_ism.ui.register;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,7 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
     private DatabaseReference db = databaseRef.getReference();
 
     private static final String TAG = "RegisterActivity";
-
+    private ProgressDialog progress ;
 
     // final ProgressBar loadingProgressBar = binding.loading;
     @Override
@@ -54,14 +58,15 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        progress = new ProgressDialog(this);
 
         final EditText nameEditText = binding.name;
         final EditText lastNameEditText = binding.lastName;
-        final EditText userNameEditText = binding.userName;
         final EditText emailEditText = binding.email;
         final EditText password1EditText = binding.password1;
         final EditText password2EditText = binding.password2;
         final Button singUpButton = binding.singUpButton;
+        final CheckBox termCond = binding.checkBox;
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -73,17 +78,39 @@ public class RegisterActivity extends AppCompatActivity {
                 if (MainActivity.validarConexion(RegisterActivity.this)) {
 
                     if (!nameEditText.getText().toString().isEmpty() && !lastNameEditText.getText().toString().isEmpty()
-                            && !userNameEditText.getText().toString().isEmpty() && !emailEditText.getText().toString().isEmpty()
-                            && !password1EditText.getText().toString().isEmpty() && !password2EditText.getText().toString().isEmpty() && password1EditText.getText().toString().equals(password2EditText.getText().toString())) {
+                           && !emailEditText.getText().toString().isEmpty()
+                            && !password1EditText.getText().toString().isEmpty() && !password2EditText.getText().toString().isEmpty())  {
+                        if (password1EditText.length() < 8 || password2EditText.length() < 8) {
+                            message(getString(R.string.password_must_be_8_characters_or_more));
+                            return;
+                        }
+                        if (!password1EditText.getText().toString().equals(password2EditText.getText().toString())) {
+                            message(getString(R.string.message_passwords_not_match));
+                            return;
+                        }
 
-                        String[] usuario = new String[10];
-                        usuario[0] = nameEditText.getText().toString();
-                        usuario[1] = lastNameEditText.getText().toString();
-                        usuario[2] = userNameEditText.getText().toString();
-                        usuario[3] = emailEditText.getText().toString();
-                        createAccount(emailEditText.getText().toString(), password1EditText.getText().toString(), usuario);
+if (!termCond.isChecked()) {
+    message(getString(R.string.message_accept_terms));
+    return;
+}
+                        progress.setMessage(getString(R.string.message_creating_account));
+                        progress.setCanceledOnTouchOutside(false);
+                        progress.show();
+    String[] usuario = new String[10];
+    usuario[0] = nameEditText.getText().toString();
+    usuario[1] = lastNameEditText.getText().toString();
+    usuario[2] = emailEditText.getText().toString();
+    createAccount(emailEditText.getText().toString(), password1EditText.getText().toString(), usuario);
+
+
+
+                    }else{
+                        message(getString(R.string.message_empty_field));
                     }
+                }else{
+                    message(getString(R.string.message_connection));
                 }
+
             }
         });
 
@@ -107,16 +134,17 @@ public class RegisterActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "createUserWithEmail:success");
-                    Toast.makeText(RegisterActivity.this, "Registro Exitoso.",
-                            Toast.LENGTH_SHORT).show();
+                    progress.setMessage(getString(R.string.message_successful_reg));
+                    progress.dismiss();
                     FirebaseUser user = mAuth.getCurrentUser();
                     updateUI(user, usuario);
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                    Toast.makeText(RegisterActivity.this, "Registro Fallido.",
-                            Toast.LENGTH_SHORT).show();
+                    progress.dismiss();
+                    message(getString(R.string.message_verify_valid));
                    // updateUI(null, null);
+
                 }
             }
         });
@@ -125,8 +153,6 @@ public class RegisterActivity extends AppCompatActivity {
     private void updateUI(FirebaseUser user, String[] usuario) {
 
         if (user != null && usuario != null) {
-            Toast.makeText(RegisterActivity.this, "entro en registrar datos.",
-                    Toast.LENGTH_SHORT).show();
 
             String uid = user.getUid();
 
@@ -145,8 +171,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 Map<String, Object> result = new HashMap<>();
                                 result.put("name", usuario[0]);
                                 result.put("lastName", usuario[1]);
-                                result.put("userName", usuario[2]);
-                                result.put("Email", usuario[3]);
+                                result.put("email", usuario[2]);
                                 result.put("TyC", "1");
                                 result.put("fecha", fecha);
                                 result.put("photoUrl", Constantes.photoUrl_New_User);
@@ -165,6 +190,16 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 
-
+    public void message( String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(message)
+                .setNegativeButton(("Ok"), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        builder.show();
+    }
 
 }

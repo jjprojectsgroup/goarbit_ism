@@ -169,12 +169,14 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (MainActivity.validarConexion(LoginActivity.this)) {
 
-                    progress.setMessage("Iniciando Sesion... ");
+                    progress.setMessage(getString(R.string.message_logging));
                     progress.setCanceledOnTouchOutside(false);
                     progress.show();
-                    login(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString());
+                 login(usernameEditText.getText().toString(),
+                           passwordEditText.getText().toString());
 
+                }else {
+                    errorConecction();
                 }
             }
         });
@@ -186,6 +188,8 @@ public class LoginActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                     startActivity(intent);
+                }else {
+                    errorConecction();
                 }
             }
         });
@@ -233,7 +237,9 @@ public class LoginActivity extends AppCompatActivity {
                 dialog = builder.create();
                 dialog.show();
 
-            }
+            }else {
+                    errorConecction();
+                }
         }
         });
 
@@ -245,6 +251,8 @@ public class LoginActivity extends AppCompatActivity {
                     Uri url_F = Uri.parse(Constantes.url_Facebook);
                     Intent link_F = new Intent(Intent.ACTION_VIEW, url_F);
                     startActivity(link_F);
+                }else {
+                    errorConecction();
                 }
             }
         });
@@ -256,6 +264,8 @@ public class LoginActivity extends AppCompatActivity {
                     Uri url_W = Uri.parse(Constantes.url_Web);
                     Intent link_W = new Intent(Intent.ACTION_VIEW, url_W);
                     startActivity(link_W);
+                }else {
+                    errorConecction();
                 }
             }
         });
@@ -266,6 +276,8 @@ public class LoginActivity extends AppCompatActivity {
                     Uri url_I = Uri.parse(Constantes.url_Instagram);
                     Intent link_I = new Intent(Intent.ACTION_VIEW, url_I);
                     startActivity(link_I);
+                }else {
+                    errorConecction();
                 }
             }
         });
@@ -362,9 +374,11 @@ public class LoginActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Ingreso Fallido.",
-                                    Toast.LENGTH_SHORT).show();
                             //updateUI(null);
+                           progress.dismiss();
+                            errorPassword();
+
+
                         }
                     }
 
@@ -388,6 +402,28 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 })
                 .setNegativeButton(getString(R.string.message_cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        builder.show();
+    }
+    public void errorConecction(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getString(R.string.message_connection))
+                .setNegativeButton(("Ok"), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        builder.show();
+    }
+    public void errorPassword(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getString(R.string.message_incorrect))
+                .setNegativeButton(("Ok"), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
