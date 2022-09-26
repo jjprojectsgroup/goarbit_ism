@@ -42,7 +42,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.goarbit_ism.databinding.ActivityMainBinding;
 import com.example.goarbit_ism.ui.login.LoginActivity;
-import com.example.goarbit_ism.ui.profile.ProfileFragment;
 import com.example.goarbit_ism.ui.util.Constantes;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;

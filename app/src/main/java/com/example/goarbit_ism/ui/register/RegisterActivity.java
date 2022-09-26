@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,12 +21,14 @@ import com.example.goarbit_ism.R;
 import com.example.goarbit_ism.databinding.ActivityRegisterBinding;
 import com.example.goarbit_ism.ui.condicion.CondicionActivity;
 import com.example.goarbit_ism.ui.login.LoginActivity;
+import com.example.goarbit_ism.ui.util.Constantes;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -35,8 +36,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.example.goarbit_ism.ui.util.Constantes;
 public class RegisterActivity extends AppCompatActivity {
 
 
@@ -71,7 +70,6 @@ public class RegisterActivity extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-
         singUpButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
@@ -89,20 +87,18 @@ public class RegisterActivity extends AppCompatActivity {
                             return;
                         }
 
-if (!termCond.isChecked()) {
-    message(getString(R.string.message_accept_terms));
-    return;
-}
+                        if (!termCond.isChecked()) {
+                        message(getString(R.string.message_accept_terms));
+                        return;
+                        }
                         progress.setMessage(getString(R.string.message_creating_account));
                         progress.setCanceledOnTouchOutside(false);
                         progress.show();
-    String[] usuario = new String[10];
-    usuario[0] = nameEditText.getText().toString();
-    usuario[1] = lastNameEditText.getText().toString();
-    usuario[2] = emailEditText.getText().toString();
-    createAccount(emailEditText.getText().toString(), password1EditText.getText().toString(), usuario);
-
-
+                        String[] usuario = new String[10];
+                        usuario[0] = nameEditText.getText().toString();
+                        usuario[1] = lastNameEditText.getText().toString();
+                        usuario[2] = emailEditText.getText().toString();
+                        createAccount(emailEditText.getText().toString(), password1EditText.getText().toString(), usuario);
 
                     }else{
                         message(getString(R.string.message_empty_field));
@@ -168,18 +164,34 @@ if (!termCond.isChecked()) {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Map<String, Object> result = new HashMap<>();
-                                result.put("name", usuario[0]);
-                                result.put("lastName", usuario[1]);
-                                result.put("email", usuario[2]);
-                                result.put("TyC", "1");
-                                result.put("fecha", fecha);
-                                result.put("photoUrl", Constantes.photoUrl_New_User);
-                                db.child("users").child(user.getUid()).updateChildren(result);
-                                Log.d(TAG, "User profile updated.");
-                                //db.child("users").child(uid).setValue(new User(usuario[0], usuario[1],usuario[2], usuario[3], "1", fecha, constantes.photoUrl_New_User));
-                                Intent intent = new Intent( RegisterActivity.this, LoginActivity.class );
-                                startActivity(intent);
+                                db.child("users").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                        if (!task.isSuccessful()) {
+                                            Log.e("firebase", "Error getting data", task.getException());
+                                        }
+                                        else {
+                                            Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                                            long contador = task.getResult().getChildrenCount();
+                                            Map<String, Object> result = new HashMap<>();
+                                            result.put("name", usuario[0]);
+                                            result.put("lastName", usuario[1]);
+                                            result.put("email", usuario[2]);
+                                            result.put("TyC", "1");
+                                            result.put("fecha", fecha);
+                                            result.put("photoUrl", Constantes.photoUrl_New_User);
+                                            result.put("id", contador+1);
+                                            result.put("active", "0");
+                                            result.put("isPlaying", "0");
+                                            db.child("users").child(user.getUid()).updateChildren(result);
+                                            Log.d(TAG, "User profile updated.");
+                                            //db.child("users").child(uid).setValue(new User(usuario[0], usuario[1],usuario[2], usuario[3], "1", fecha, constantes.photoUrl_New_User));
+                                            Intent intent = new Intent( RegisterActivity.this, LoginActivity.class );
+                                            startActivity(intent);
+                                        }
+                                    }
+                                });
+
                             }
                         }
                     });
@@ -187,8 +199,6 @@ if (!termCond.isChecked()) {
         }
 
     }
-
-
 
     public void message( String message){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
