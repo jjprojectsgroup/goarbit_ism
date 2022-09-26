@@ -71,6 +71,8 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+       invokeAd();
+
         if (user != null) {
             Intent intent = new Intent( LoginActivity.this, MainActivity.class );
             startActivity(intent);
@@ -425,5 +427,21 @@ public class LoginActivity extends AppCompatActivity {
                 });
         builder.show();
     }
+    public void invokeAd(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+        View mView = getLayoutInflater().inflate(R.layout.layout_ad, null);
+        ImageButton btnSalir = (ImageButton) mView.findViewById(R.id.btnSalir);
 
+        btnSalir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+            }
+        });
+
+        builder.setView(mView);
+        dialog = builder.create();
+        dialog.show();
+    }
 }
