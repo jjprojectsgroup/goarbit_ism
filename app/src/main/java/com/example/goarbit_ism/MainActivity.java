@@ -15,6 +15,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
@@ -91,7 +92,11 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference imgReference;
     private StorageReference storageReference;
 /////
+    AlertDialog dialog = null;
+    ImageView imagePromo = null;
 
+    Handler handler = new Handler(); // En esta zona creamos el objeto Handler
+    private final int TIEMPO = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,7 +211,6 @@ public class MainActivity extends AppCompatActivity {
                     extras.putString("URL", Constantes.url_Stake);
                 }
                 if(extras != null){
-                    System.out.println("----------------*************************Extras: " + extras);
                     Intent intent = new Intent(MainActivity.this, ExternalActivity.class);
                     intent.putExtras(extras);
                     startActivity(intent);
@@ -222,6 +226,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        invokeAd();
 
     }
 
@@ -376,6 +381,7 @@ public class MainActivity extends AppCompatActivity {
             cargando.show();
 
             imageUser = (CircleImageView) findViewById(R.id.imageUser);
+            imagePromo = (ImageView) findViewById(R.id.imgAd);
          //   Uri ruta = data.getData();
             imageUser.setImageURI(imgUri);
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -442,15 +448,6 @@ public class MainActivity extends AppCompatActivity {
             });
         }
     }
-   /* @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-           // super.finish();
-            Toast.makeText(MainActivity.this, "cerrar app",
-                    Toast.LENGTH_SHORT).show();
-        }
-        return super.onKeyDown(keyCode, event);
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -558,5 +555,56 @@ public void errorConecction(){
                 }
             });
 }
+
+    public void invokeAd(){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+        View mView = getLayoutInflater().inflate(R.layout.layout_ad, null);
+        ImageButton btnSalir = (ImageButton) mView.findViewById(R.id.btnSalir2);
+        ImageView imagePromo = (ImageView) mView.findViewById(R.id.imgAd);
+
+        btnSalir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+            }
+        });
+       // DatabaseReference promo = db.child("promos").child("1");
+        db.child("promos").child("1").get().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.e("firebase", "Error getting data", task.getException());
+            }
+            else {
+                Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                Uri photoUrl = Uri.parse((String) task.getResult().getValue());
+                Glide.with(this).load(photoUrl)
+                        .apply(new RequestOptions()
+                                .placeholder(R.mipmap.ic_launcher)
+                                // .override(640, 480)
+                                .centerCrop()
+                                .dontAnimate()
+                                .dontTransform().diskCacheStrategy(DiskCacheStrategy.RESOURCE))
+                        //.thumbnail(.5f)
+                        .into(imagePromo);
+            }
+        });
+
+
+        builder.setView(mView);
+        dialog = builder.create();
+        ejecutarTarea(dialog);
+    }
+
+    public void ejecutarTarea(AlertDialog dialog) {
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                dialog.show();
+                handler.postDelayed(this, TIEMPO);
+            }
+        }, TIEMPO);
+
+    }
 
 }

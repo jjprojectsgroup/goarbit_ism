@@ -16,6 +16,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.goarbit_ism.MainActivity;
 import com.example.goarbit_ism.R;
 import com.example.goarbit_ism.databinding.ActivityLoginBinding;
@@ -37,6 +41,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.skydoves.elasticviews.ElasticCheckButton;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -56,7 +62,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +76,6 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-       invokeAd();
 
         if (user != null) {
             Intent intent = new Intent( LoginActivity.this, MainActivity.class );
@@ -92,6 +96,8 @@ public class LoginActivity extends AppCompatActivity {
         final ImageButton btn_Facebook= binding.buttonFacebook;
         final ImageButton btn_Web= binding.buttonWeb;
         final ImageButton btn_Instagram= binding.buttonInstagram;
+
+
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
@@ -278,6 +284,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+
     }
 
     private void enviarCorreo(String email) {
@@ -427,21 +434,6 @@ public class LoginActivity extends AppCompatActivity {
                 });
         builder.show();
     }
-    public void invokeAd(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-        View mView = getLayoutInflater().inflate(R.layout.layout_ad, null);
-        ImageButton btnSalir = (ImageButton) mView.findViewById(R.id.btnSalir);
 
-        btnSalir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                dialog.dismiss();
-            }
-        });
-
-        builder.setView(mView);
-        dialog = builder.create();
-        dialog.show();
-    }
 }
