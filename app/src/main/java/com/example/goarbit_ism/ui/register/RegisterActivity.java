@@ -16,9 +16,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import com.example.goarbit_ism.MainActivity;
 import com.example.goarbit_ism.R;
 import com.example.goarbit_ism.databinding.ActivityRegisterBinding;
+
 import com.example.goarbit_ism.ui.condicion.CondicionActivity;
 import com.example.goarbit_ism.ui.login.LoginActivity;
 import com.example.goarbit_ism.ui.util.Constantes;

@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView textName = null;
     private TextView textEmail = null;
+    private TextView textCode = null;
     boolean datosPerfil = false;
 
     UploadTask uploadTask;
@@ -95,8 +96,9 @@ public class MainActivity extends AppCompatActivity {
     AlertDialog dialog = null;
     ImageView imagePromo = null;
 
+
     Handler handler = new Handler(); // En esta zona creamos el objeto Handler
-    private final int TIEMPO = 2000;
+    private final int TIEMPO = 3000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -226,7 +228,33 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        invokeAd();
+if(user!=null && user.getUid()!=null){
+        db.child("users").child(user.getUid()).get().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.e("firebase", "Error getting data", task.getException());
+            }
+            else {
+                String dataActive= (String) task.getResult().child("active").getValue();
+                String dataPlaying= (String) task.getResult().child("isPlaying").getValue();
+                Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                if(dataPlaying!=null && Integer.parseInt(dataPlaying)==1){
+                    textCode = (TextView) findViewById(R.id.textSorteo);
+                    textCode.setText(getString(R.string.message_code)+task.getResult().child("id").getValue());
+                    adPlaying();
+
+                }
+                else if(dataActive!=null && Integer.parseInt(dataActive)==0){
+                    adWelcome();
+                }
+                else{
+
+                }
+            }
+        });}
+
+
+
+
 
     }
 
@@ -342,7 +370,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void permisoDeAlmacenamientoConcedido() {
-        Toast.makeText(MainActivity.this, "El permiso para el almacenamiento está concedido", Toast.LENGTH_SHORT).show();
         Intent galeria = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         galeria.setType("image/");
         startActivityForResult(getIntent().createChooser(galeria, "Selecione la Imagen"), 10);
@@ -502,8 +529,8 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("Photo URL2: " + photoUrl);
             Glide.with(this).load(photoUrl)
                     .apply(new RequestOptions()
-                            .placeholder(R.mipmap.ic_launcher)
-                            .override(640, 480)
+                            .placeholder(R.drawable.goarbit_icon)
+                            //.override(640, 480)
                             .centerCrop()
                             .dontAnimate()
                             .dontTransform().diskCacheStrategy(DiskCacheStrategy.RESOURCE))
@@ -517,6 +544,7 @@ public class MainActivity extends AppCompatActivity {
             textEmail = (TextView) findViewById(R.id.textEmail);
             textName.setText(name);
             textEmail.setText(email);
+
 
         }
         // [END get_user_profile]
@@ -556,7 +584,7 @@ public void errorConecction(){
             });
 }
 
-    public void invokeAd(){
+    public void adWelcome(){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
@@ -572,7 +600,48 @@ public void errorConecction(){
             }
         });
        // DatabaseReference promo = db.child("promos").child("1");
-        db.child("promos").child("1").get().addOnCompleteListener(task -> {
+        db.child("promos").child("bienvenida").get().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.e("firebase", "Error getting data", task.getException());
+            }
+            else {
+                Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                Uri photoUrl = Uri.parse((String) task.getResult().getValue());
+                Glide.with(this).load(photoUrl)
+                        .apply(new RequestOptions()
+                                .placeholder(R.drawable.goarbit_icon)
+                                // .override(640, 480)
+                                .centerCrop()
+                                .dontAnimate()
+                                .dontTransform().diskCacheStrategy(DiskCacheStrategy.RESOURCE))
+                                .thumbnail(.5f)
+                                .into(imagePromo);
+            }
+        });
+
+
+        builder.setView(mView);
+        dialog = builder.create();
+        ejecutarTarea(dialog);
+    }
+
+    public void adPlaying(){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+        View mView = getLayoutInflater().inflate(R.layout.layout_ad, null);
+        ImageButton btnSalir = (ImageButton) mView.findViewById(R.id.btnSalir2);
+        ImageView imagePromo = (ImageView) mView.findViewById(R.id.imgAd);
+
+        btnSalir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog.dismiss();
+            }
+        });
+        // DatabaseReference promo = db.child("promos").child("1");
+        db.child("promos").child("isPlaying").get().addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
                 Log.e("firebase", "Error getting data", task.getException());
             }
@@ -586,7 +655,7 @@ public void errorConecction(){
                                 .centerCrop()
                                 .dontAnimate()
                                 .dontTransform().diskCacheStrategy(DiskCacheStrategy.RESOURCE))
-                        //.thumbnail(.5f)
+                        .thumbnail(.5f)
                         .into(imagePromo);
             }
         });
@@ -597,11 +666,13 @@ public void errorConecction(){
         ejecutarTarea(dialog);
     }
 
+
+
     public void ejecutarTarea(AlertDialog dialog) {
         handler.postDelayed(new Runnable() {
             public void run() {
                 dialog.show();
-                handler.postDelayed(this, TIEMPO);
+               // handler.postDelayed(this, TIEMPO);
             }
         }, TIEMPO);
 

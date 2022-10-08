@@ -32,7 +32,7 @@
         <activity
             android:name=".GoarbitActivity"
             android:exported="true"
-            android:label="@string/menu_goarbit">
+            android:label="@string/menu_goarbit2">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

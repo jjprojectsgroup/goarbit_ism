@@ -38,7 +38,7 @@
     <string name="login_forgot_password">¿Has olvidado tu contraseña?</string>
     <string name="retrieve_password">Ingresa tu correo electrónico</string>
     <string name="button_confirm">Confirmar</string>
-    <string name="menu_goarbit">GoArbit</string>
+    <string name="menu_goarbit2">Código de Invitación: 50169337</string>
     <string name="register_sign_up_button">Registrate</string>
     <string name="menu_profile">Perfil</string>
     <string name="update">Actualizar</string>
@@ -83,4 +83,6 @@
     <string name="message_logging">Iniciando Sesión...</string>
     <string name="message_creating_account">Creando Cuenta...</string>
     <string name="message_successful_reg">Registro Exitoso</string>
+    <string name="menu_goarbit">GoArbit</string>
+    <string name="message_code">"Participante #: "</string>
 </resources>

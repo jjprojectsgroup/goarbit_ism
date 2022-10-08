@@ -38,7 +38,7 @@
     <string name="login_forgot_password">Forgot password?</string>
     <string name="retrieve_password">Enter your email</string>
     <string name="button_confirm">Confirm</string>
-    <string name="menu_goarbit">GoArbit</string>
+    <string name="menu_goarbit2">" Invitation Code: 50169337"</string>
     <string name="register_sign_up_button">Sign Up</string>
     <string name="menu_profile">Profile</string>
     <string name="update">Update</string>
@@ -83,4 +83,6 @@
     <string name="message_logging">Logging in...</string>
     <string name="message_creating_account">Creating Account...</string>
     <string name="message_successful_reg">Successful registration</string>
+    <string name="menu_goarbit">GoArbit</string>
+    <string name="message_code">Competitor #:</string>
 </resources>

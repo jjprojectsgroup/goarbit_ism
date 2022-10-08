@@ -32,6 +32,6 @@
     <activity
         android:id="@+id/nav_goarbit"
         android:name="com.example.goarbit_ism.GoarbitActivity"
-        android:label="@string/menu_goarbit"
+        android:label="@string/menu_goarbit2"
         tools:layout="@layout/activity_goarbit" />
 </navigation>
