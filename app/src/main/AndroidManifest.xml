@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.goarbit_ism">
+    package="com.goarbit.goarbit_ism">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission
@@ -22,15 +22,15 @@
         android:theme="@style/Theme.Goarbit_ism"
         tools:targetApi="31">
         <activity
-            android:name=".AboutActivity"
+            android:name="app.aplicacion.goarbit_ism.AboutActivity"
             android:exported="false"
             android:label="About"/>
         <activity
-            android:name=".ExternalActivity"
+            android:name="app.aplicacion.goarbit_ism.ExternalActivity"
             android:exported="false"
             android:label="GOFINTECH group" />
         <activity
-            android:name=".GoarbitActivity"
+            android:name="app.aplicacion.goarbit_ism.GoarbitActivity"
             android:exported="true"
             android:label="@string/menu_goarbit2">
             <intent-filter>
@@ -40,7 +40,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NewsActivity"
+            android:name="app.aplicacion.goarbit_ism.NewsActivity"
             android:exported="true"
             android:label="@string/menu_news">
             <intent-filter>
@@ -50,7 +50,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.login.LoginActivity"
+            android:name="app.aplicacion.goarbit_ism.ui.login.LoginActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Goarbit_ism.NoActionBar">
@@ -61,7 +61,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.condicion.CondicionActivity"
+            android:name="app.aplicacion.goarbit_ism.ui.condicion.CondicionActivity"
             android:exported="true"
             android:label="Términos y Condiciones">
             <intent-filter>
@@ -71,7 +71,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.register.RegisterActivity"
+            android:name="app.aplicacion.goarbit_ism.ui.register.RegisterActivity"
             android:exported="true"
             android:label="@string/title_activity_register"
             android:theme="@style/Theme.Goarbit_ism.NoActionBar">
@@ -82,7 +82,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="app.aplicacion.goarbit_ism.MainActivity"
             android:exported="true"
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.Goarbit_ism.NoActionBar">
